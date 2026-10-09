@@ -55,10 +55,39 @@ footer{background:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.9
 @media(max-width:760px){.nav{padding:0 14px}.hero{padding:54px 0 44px}.tools{gap:12px}.tool{padding:18px;border-radius:18px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.tool,.btn{transition:none}}
 
+/* PDFLeo account modal */
+.auth-open{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(15,23,42,.45);backdrop-filter:blur(8px)}
+.auth-open.show{display:flex}
+.auth-card{width:min(440px,100%);padding:26px;border:1px solid rgba(255,255,255,.9);border-radius:24px;background:rgba(255,255,255,.94);box-shadow:0 28px 90px rgba(20,40,80,.25);position:relative}
+.auth-card h2{margin:0 0 8px;font-size:25px;letter-spacing:-.7px}.auth-muted{color:#64748b;font-size:13px;line-height:1.6;margin:0 0 20px}
+.auth-close{position:absolute;right:16px;top:13px;border:0;background:transparent;font-size:25px;cursor:pointer;color:#64748b}
+.auth-field{display:grid;gap:7px;margin:13px 0;color:#334155;font-size:13px;font-weight:650}.auth-field input{width:100%;padding:13px 14px;border:1px solid #dbe4f0;border-radius:12px;font:inherit;background:#fff;color:#172554}
+.auth-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}.auth-link{border:0;background:transparent;color:#2563eb;font-weight:700;cursor:pointer;padding:8px 0}.auth-message{font-size:13px;line-height:1.5;margin-top:13px;overflow-wrap:anywhere}.auth-message.error{color:#b42318}.auth-message.ok{color:#08744f}.auth-email{font-weight:750;overflow-wrap:anywhere}
+@media(max-width:520px){.auth-card{padding:22px}.navlinks{gap:8px}.navlinks #authOpen{padding:9px 10px;font-size:12px}}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a href="#" aria-label="PDFLeo home" style="display:inline-flex;align-items:center"><img src="brand-logo.svg" alt="PDFLeo — PDF tools made simple" width="180" height="42" style="display:block;max-width:48vw;height:auto"></a><nav class="navlinks"><a href="#tools">PDF Tools</a><a href="#privacy">Privacy</a><a class="pill" href="#tools">Get started ↗</a></nav></header>
+<header class="wrap nav"><a href="#" aria-label="PDFLeo home" style="display:inline-flex;align-items:center"><img src="brand-logo.svg" alt="PDFLeo — PDF tools made simple" width="180" height="42" style="display:block;max-width:48vw;height:auto"></a><nav class="navlinks"><a href="#tools">PDF Tools</a><a href="#privacy">Privacy</a><button class="pill" id="authOpen" type="button">Log in / Sign up</button></nav></header>
+<div class="auth-open" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <button class="auth-close" id="authClose" type="button" aria-label="Close">×</button>
+    <div id="authForms">
+      <h2 id="authTitle">Welcome to PDFLeo</h2>
+      <p class="auth-muted" id="authIntro">Create an account or log in to PDFLeo.</p>
+      <form id="authForm">
+        <label class="auth-field">Email address<input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label class="auth-field" id="authPasswordWrap">Password<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></label>
+        <div class="auth-actions"><button class="btn" id="authSubmit" type="submit">Log in</button><button class="auth-link" id="authSwitch" type="button">Create an account</button></div>
+      </form>
+      <div class="auth-actions"><button class="auth-link" id="authForgot" type="button">Forgot password?</button></div>
+      <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+    </div>
+    <div id="authAccount" hidden>
+      <h2 id="accountTitle">My account</h2><p class="auth-muted">You are logged in to PDFLeo as:</p><p class="auth-email" id="accountEmail"></p>
+      <div class="auth-actions"><button class="btn" id="authLogout" type="button">Log out</button></div><p class="auth-message" id="accountMessage" role="status"></p>
+    </div>
+  </div>
+</div>
 <main><section class="hero"><div class="wrap"><div class="eyebrow"><span class="dot"></span> SIMPLE · FAST · PRIVATE</div><h1>Your everyday <em>PDF tools.</em><br>Made wonderfully simple.</h1><p>Merge, convert, organize, edit and manage PDF documents with a growing collection of simple tools.</p><div class="hero-actions"><a class="btn" href="#tools">Explore PDF tools&nbsp; →</a><a class="btn secondary" href="#privacy">How your files stay private</a></div><div class="trust"><span>No account needed</span><span>Files processed in your browser</span><span>Free to use</span></div></div></section>
 <section class="section wrap" id="tools"><div class="section-head"><h2>Everyday PDF tools, all in one place</h2><p>Browse all 33 PDF tools by category or search for a tool by name.</p></div><div class="tool-controls"><input id="toolSearch" type="search" placeholder="Search PDF tools…" aria-label="Search PDF tools"><div class="filters"><button class="filter active" data-filter="All">All tools</button><button class="filter" data-filter="Organize PDF">Organize</button><button class="filter" data-filter="Optimize PDF">Optimize</button><button class="filter" data-filter="Convert PDF">Convert</button><button class="filter" data-filter="Edit PDF">Edit</button><button class="filter" data-filter="PDF Security">Security</button><button class="filter" data-filter="PDF Intelligence">PDF Intelligence</button></div></div><div class="tools"><article class="tool" data-category="Organize PDF" data-title="merge pdf"><div class="ico">▤</div><h3>Merge PDF</h3><p>Combine multiple PDF documents.</p><div class="tool-foot"><span class="tool-status ready">Ready</span><button data-tool="merge">Open tool →</button></div></article>
 <article class="tool" data-category="Organize PDF" data-title="split pdf"><div class="ico">⤴</div><h3>Split PDF</h3><p>Separate a PDF into individual files or page ranges.</p><div class="tool-foot"><span class="tool-status beta">Browser beta</span><button data-tool="split">Open tool →</button></div></article>
@@ -104,6 +133,19 @@ const $=id=>document.getElementById(id);$('year').textContent=new Date().getFull
 const SUPABASE_URL='https://hasdyzmvqwyztssbqvet.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_ira0ndyrnmNUuCJ6HF0xGQ_tydy0H55';
 const supabaseClient=window.supabase?.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
+let authMode='login';
+const authModal=$('authModal'),authForms=$('authForms'),authAccount=$('authAccount'),authMessage=$('authMessage');
+function authNotice(message,kind){authMessage.textContent=message||'';authMessage.className='auth-message '+(kind||'');}
+function openAuth(){authModal.classList.add('show');authNotice('');if(window.pdfleoSession?.user){authForms.hidden=true;authAccount.hidden=false;$('accountEmail').textContent=window.pdfleoSession.user.email||'Signed-in user';}else{authForms.hidden=false;authAccount.hidden=true;$('authEmail').focus();}}
+function closeAuth(){authModal.classList.remove('show');}
+function setAuthMode(mode){authMode=mode;const signup=mode==='signup';$('authTitle').textContent=signup?'Create your PDFLeo account':'Welcome back';$('authIntro').textContent=signup?'Sign up with your email and a password.':'Log in to your PDFLeo account.';$('authSubmit').textContent=signup?'Sign up':'Log in';$('authSwitch').textContent=signup?'Already have an account? Log in':'Create an account';$('authPassword').autocomplete=signup?'new-password':'current-password';$('authForgot').hidden=signup;authNotice('');}
+$('authOpen').addEventListener('click',openAuth);$('authClose').addEventListener('click',closeAuth);authModal.addEventListener('click',e=>{if(e.target===authModal)closeAuth();});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAuth();});$('authSwitch').addEventListener('click',()=>setAuthMode(authMode==='login'?'signup':'login'));
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();if(!supabaseClient){authNotice('Account service is not available right now. Please refresh and try again.','error');return;}const email=$('authEmail').value.trim(),password=$('authPassword').value;$('authSubmit').disabled=true;authNotice(authMode==='signup'?'Creating your account…':'Logging in…');try{let result;if(authMode==='signup'){result=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+'/'}});if(result.error)throw result.error;if(result.data.session){window.pdfleoSession=result.data.session;authNotice('Account created and you are logged in.','ok');}else{authNotice('Sign-up received. Check your email for a confirmation link, then log in.','ok');}if(result.data.user&&!result.data.session){return;}}else{result=await supabaseClient.auth.signInWithPassword({email,password});if(result.error)throw result.error;window.pdfleoSession=result.data.session;authNotice('Login successful.','ok');}updateAuthButton();setTimeout(()=>{if(window.pdfleoSession)openAuth();},150);}catch(err){authNotice(err.message||'Could not complete the request. Please try again.','error');}finally{$('authSubmit').disabled=false;}});
+$('authForgot').addEventListener('click',async()=>{if(!supabaseClient){authNotice('Account service is not available right now.','error');return;}const email=$('authEmail').value.trim();if(!email){authNotice('Enter your email address first, then choose Forgot password.','error');$('authEmail').focus();return;}try{const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/'});if(error)throw error;authNotice('If this email is registered, a password-reset link has been sent. Check your inbox.','ok');}catch(err){authNotice(err.message||'Could not send the reset email. Please try again.','error');}});
+$('authLogout').addEventListener('click',async()=>{if(!supabaseClient)return;const {error}=await supabaseClient.auth.signOut();if(error){$('accountMessage').textContent=error.message;return;}window.pdfleoSession=null;updateAuthButton();setAuthMode('login');openAuth();authNotice('You have logged out.','ok');});
+function updateAuthButton(){const b=$('authOpen');if(window.pdfleoSession?.user){b.textContent='My account';b.setAttribute('aria-label','My account');}else{b.textContent='Log in / Sign up';b.setAttribute('aria-label','Log in or sign up');}}
+if(supabaseClient){supabaseClient.auth.getSession().then(({data})=>{window.pdfleoSession=data.session||null;updateAuthButton();}).catch(()=>{});supabaseClient.auth.onAuthStateChange((_event,session)=>{window.pdfleoSession=session||null;updateAuthButton();if(!session){authForms.hidden=false;authAccount.hidden=true;}});}
+setAuthMode('login');
 async function recordToolUsage(toolName){
   if(!supabaseClient)return;
   try{await supabaseClient.from('tool_usage').insert({tool_name:toolName});}
