@@ -98,8 +98,17 @@ footer{background:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.9
 </section></main>
 <footer><div class="wrap foot"><div><a href="#" aria-label="PDFLeo home"><img src="brand-logo.svg" alt="PDFLeo" width="150" height="35" style="display:block;max-width:48vw;height:auto"></a><div style="margin-top:7px">Simple tools for everyday documents.</div><div style="margin-top:6px">© <span id="year"></span> PDFLeo</div></div><div class="footlinks"><a href="#tools">PDF Tools</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="security.html">Security</a><a href="mailto:hello@pdfleo.online">Contact</a></div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const $=id=>document.getElementById(id);$('year').textContent=new Date().getFullYear();
+const SUPABASE_URL='https://hasdyzmvqwyztssbqvet.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_ira0ndyrnmNUuCJ6HF0xGQ_tydy0H55';
+const supabaseClient=window.supabase?.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
+async function recordToolUsage(toolName){
+  if(!supabaseClient)return;
+  try{await supabaseClient.from('tool_usage').insert({tool_name:toolName});}
+  catch(_e){/* Analytics must never block a user's PDF conversion. */}
+}
 let current='merge';
 const config={
 merge:{title:'Merge PDF files',sub:'Select two or more PDFs to combine.',accept:'.pdf,application/pdf',multiple:true},
@@ -192,5 +201,5 @@ if(['numbers','watermark','crop','edit','sign','redact'].includes(current)){out=
 if(current==='unlock'||current==='protect'||current==='forms'||current==='pdfa'||current==='translate')throw Error(config[current].sub);
 return {data:await out.save(),name:'pdfleo-'+current+'.pdf',type:'application/pdf',message:current==='compress'?'PDF re-saved. File size may not be smaller; image recompression is not performed.':current==='repair'?'PDF loaded and re-saved. Severe corruption cannot be repaired by this method.':'Your file is ready.'};
 }
-$('run').addEventListener('click',async()=>{const files=[...$('files').files];$('run').disabled=true;try{report('Processing locally in your browser…');const result=await runTool(files);download(result.data,result.name,result.type);report(result.message,'ok');}catch(e){report(e.message||'Something went wrong. Please check your files and try again.','error');}finally{$('run').disabled=false;}});
+$('run').addEventListener('click',async()=>{const files=[...$('files').files];$('run').disabled=true;try{report('Processing locally in your browser…');const result=await runTool(files);download(result.data,result.name,result.type);report(result.message,'ok');void recordToolUsage(current);}catch(e){report(e.message||'Something went wrong. Please check your files and try again.','error');}finally{$('run').disabled=false;}});
 </script></body></html>
