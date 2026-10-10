@@ -223,6 +223,11 @@ async function textPdf(text){const out=await PDFLib.PDFDocument.create(),font=aw
 async function runTool(files){
 if(config[current]?.service)throw Error(config[current].sub);
 if(!files.length)throw Error('Please select your file(s) first.');
+const MAX_FILE_BYTES=25*1024*1024,MAX_TOTAL_BYTES=60*1024*1024;
+const oversized=files.find(file=>file.size>MAX_FILE_BYTES);
+if(oversized)throw Error('“'+oversized.name+'” is larger than the 25 MB per-file limit. Please choose a smaller file.');
+const totalBytes=files.reduce((sum,file)=>sum+file.size,0);
+if(totalBytes>MAX_TOTAL_BYTES)throw Error('Selected files total more than 60 MB. Please process fewer or smaller files at a time.');
 if(!window.PDFLib)throw Error('PDF library could not load. Check your internet connection.');
 const {PDFDocument,degrees,rgb,StandardFonts}=PDFLib;let out;
 if(['images','jpgpdf','scan'].includes(current)){out=await imagePdf(files);return {data:await out.save(),name:'pdfleo-images.pdf',type:'application/pdf',message:'Images converted to PDF.'};}
