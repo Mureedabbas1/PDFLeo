@@ -76,13 +76,13 @@ try {
   for (const tool of Object.keys(fixtures)) {
     try {
       await page.locator('[data-tool="' + tool + '"]').click();
-      await page.locator('#files').setInputFiles(fixtures[tool].map(name => ({ name, mimeType:
+      await page.locator('#files').setInputFiles(await Promise.all(fixtures[tool].map(async name => ({ name, mimeType:
         name.endsWith('.pdf') ? 'application/pdf' : name.endsWith('.png') ? 'image/png' :
         name.endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
         name.endsWith('.pptx') ? 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
         name.endsWith('.xlsx') ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :
         name.endsWith('.html') ? 'text/html' : 'text/plain',
-        buffer: await fs.readFile(path.join(tmp, name)) })));
+        buffer: await fs.readFile(path.join(tmp, name)) }))));
       if (tool === 'organize') await page.locator('#pageOrder').fill('2,1');
       if (tool === 'extract') await page.locator('#range').fill('1');
       if (tool === 'remove') await page.locator('#range').fill('2');
