@@ -17,23 +17,51 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Extract inline JavaScript
+      - name: Extract inline JavaScript and validate local links
         run: |
           node <<'NODE'
           const fs = require('fs');
+          const path = require('path');
+          const htmlFiles = fs.readdirSync('.').filter(name => name.endsWith('.html'));
+          if (!htmlFiles.includes('index.html')) throw new Error('index.html not found');
+          let scriptCount = 0;
+          const broken = [];
+          for (const file of htmlFiles) {
+            const html = fs.readFileSync(file, 'utf8');
+            const scripts = [...html.matchAll(/<script\\b(?![^>]*\\bsrc\\s*=)(?![^>]*\\btype\\s*=\\s*["\\']application\\/ld\\+json["\\'])[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(s => s.trim());
+            if (scripts.length) {
+              const output = path.join('/tmp', 'pdfleo-' + file.replace(/[^a-z0-9.-]/gi, '-') + '.js');
+              fs.writeFileSync(output, scripts.join('\\n;\\n'));
+              scriptCount++;
+            }
+            for (const match of html.matchAll(/(?:href|src)=["']([^"']+)["']/gi)) {
+              const raw = match[1].trim();
+              if (!raw || /^(?:[a-z][a-z0-9+.-]*:|\\/\\/|#)/i.test(raw)) continue;
+              let target;
+              try { target = decodeURIComponent(raw.split(/[?#]/)[0]); }
+              catch { broken.push(file + ': invalid URL encoding in ' + raw); continue; }
+              if (!target) continue;
+              if (target === '/') target = 'index.html';
+              target = target.replace(/^\\//, '');
+              if (!fs.existsSync(target)) broken.push(file + ': missing local file ' + raw);
+            }
+          }
+          if (broken.length) throw new Error('Broken local references:\\n' + broken.join('\\n'));
           const html = fs.readFileSync('index.html', 'utf8');
-          const scripts = [...html.matchAll(/<script\b(?![^>]*\bsrc\s*=)(?![^>]*\btype\s*=\s*["\']application\/ld\+json["\'])[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
-          if (!scripts.length) throw new Error('No inline JavaScript found in index.html');
-          fs.writeFileSync('/tmp/pdfleo-inline.js', scripts.join('\n;\n'));
           const cards = [...html.matchAll(/data-tool="([^"]+)"/g)].map(m => m[1]);
           const configStart = html.indexOf('const config={');
-          const configEnd = html.indexOf('};\nlet activeFilter', configStart);
+          const configEnd = html.indexOf('};\\nlet activeFilter', configStart);
           if (configStart < 0 || configEnd < 0) throw new Error('Tool config block not found');
           const config = html.slice(configStart, configEnd);
-          const keys = new Set([...config.matchAll(/^\s*([a-zA-Z0-9]+):\{/gm)].map(m => m[1]));
+          const keys = new Set([...config.matchAll(/^\\s*([a-zA-Z0-9]+):\\{/gm)].map(m => m[1]));
           const missing = [...new Set(cards)].filter(k => !keys.has(k));
           if (missing.length) throw new Error('Tool cards missing config: ' + missing.join(', '));
-          console.log('Checked ' + new Set(cards).size + ' tool cards and found config for all of them.');
+          console.log('Checked ' + htmlFiles.length + ' HTML pages, ' + scriptCount + ' pages with inline JavaScript, ' + new Set(cards).size + ' tool cards, and all local file references.');
           NODE
-      - name: Validate JavaScript syntax
-        run: node --check /tmp/pdfleo-inline.js
+      - name: Validate JavaScript syntax on every page
+        run: |
+          set -e
+          for file in /tmp/pdfleo-*.js; do
+            [ -e "$file" ] || continue
+            node --check "$file"
+          done
