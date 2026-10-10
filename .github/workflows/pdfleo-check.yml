@@ -28,32 +28,35 @@ jobs:
           const broken = [];
           for (const file of htmlFiles) {
             const html = fs.readFileSync(file, 'utf8');
-            const scripts = [...html.matchAll(/<script\\b(?![^>]*\\bsrc\\s*=)(?![^>]*\\btype\\s*=\\s*["\\']application\\/ld\\+json["\\'])[^>]*>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(s => s.trim());
+            const scriptTags = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+            const scripts = scriptTags
+              .filter(m => !/\bsrc\s*=/i.test(m[1]) && !/\btype\s*=\s*["']application\/ld\+json["']/i.test(m[1]))
+              .map(m => m[2]).filter(s => s.trim());
             if (scripts.length) {
               const output = path.join('/tmp', 'pdfleo-' + file.replace(/[^a-z0-9.-]/gi, '-') + '.js');
-              fs.writeFileSync(output, scripts.join('\\n;\\n'));
+              fs.writeFileSync(output, scripts.join('\n;\n'));
               scriptCount++;
             }
             for (const match of html.matchAll(/(?:href|src)=["']([^"']+)["']/gi)) {
               const raw = match[1].trim();
-              if (!raw || /^(?:[a-z][a-z0-9+.-]*:|\\/\\/|#)/i.test(raw)) continue;
+              if (!raw || /^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(raw)) continue;
               let target;
               try { target = decodeURIComponent(raw.split(/[?#]/)[0]); }
               catch { broken.push(file + ': invalid URL encoding in ' + raw); continue; }
               if (!target) continue;
               if (target === '/') target = 'index.html';
-              target = target.replace(/^\\//, '');
+              target = target.replace(/^\//, '');
               if (!fs.existsSync(target)) broken.push(file + ': missing local file ' + raw);
             }
           }
-          if (broken.length) throw new Error('Broken local references:\\n' + broken.join('\\n'));
+          if (broken.length) throw new Error('Broken local references:\n' + broken.join('\n'));
           const html = fs.readFileSync('index.html', 'utf8');
           const cards = [...html.matchAll(/data-tool="([^"]+)"/g)].map(m => m[1]);
           const configStart = html.indexOf('const config={');
-          const configEnd = html.indexOf('};\\nlet activeFilter', configStart);
+          const configEnd = html.indexOf('};\nlet activeFilter', configStart);
           if (configStart < 0 || configEnd < 0) throw new Error('Tool config block not found');
           const config = html.slice(configStart, configEnd);
-          const keys = new Set([...config.matchAll(/^\\s*([a-zA-Z0-9]+):\\{/gm)].map(m => m[1]));
+          const keys = new Set([...config.matchAll(/^\s*([a-zA-Z0-9]+):\{/gm)].map(m => m[1]));
           const missing = [...new Set(cards)].filter(k => !keys.has(k));
           if (missing.length) throw new Error('Tool cards missing config: ' + missing.join(', '));
           console.log('Checked ' + htmlFiles.length + ' HTML pages, ' + scriptCount + ' pages with inline JavaScript, ' + new Set(cards).size + ' tool cards, and all local file references.');
