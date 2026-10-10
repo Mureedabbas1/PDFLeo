@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { Document, Packer, Paragraph } from 'docx';
 import * as XLSX from 'xlsx';
-import PptxGenJS from 'pptxgenjs';
+import JSZip from 'jszip';
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
@@ -41,9 +41,9 @@ await fs.writeFile(path.join(tmp, 'sample.docx'), await Packer.toBuffer(docx));
 const wb = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['Name','Value'],['PDFLeo',123]]), 'Test');
 XLSX.writeFile(wb, path.join(tmp, 'sample.xlsx'));
-const pptx = new PptxGenJS();
-pptx.addSlide().addText('PDFLeo PowerPoint test', { x: 1, y: 1, w: 6, h: 1 });
-await pptx.writeFile({ fileName: path.join(tmp, 'sample.pptx') });
+const pptxZip = new JSZip();
+pptxZip.file('ppt/slides/slide1.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><p:sld xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><p:cSld><p:spTree><p:sp><p:txBody><a:p><a:r><a:t>PDFLeo PowerPoint test</a:t></a:r></a:p></p:txBody></p:sp></p:spTree></p:cSld></p:sld>');
+await fs.writeFile(path.join(tmp, 'sample.pptx'), await pptxZip.generateAsync({ type: 'nodebuffer' }));
 // A tiny valid PNG fixture used to exercise image-to-PDF tools.
 await fs.writeFile(path.join(tmp, 'sample.png'), Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII=', 'base64'));
 
