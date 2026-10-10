@@ -11,4 +11,7 @@
   <url><loc>https://pdfleo.online/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://pdfleo.online/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://pdfleo.online/security.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://pdfleo.online/merge-pdf-online.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pdfleo.online/compress-pdf-online.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pdfleo.online/split-pdf-online.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
