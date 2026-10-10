@@ -18,7 +18,7 @@
 <h2>Connection security</h2>
 <p>Use the HTTPS version of the website when a valid certificate is active. The custom-domain certificate and HTTPS enforcement must be confirmed in GitHub Pages settings before PDFLeo claims that its custom domain is secured by HTTPS. Do not enter passwords or sensitive information on a page that shows a browser security warning.</p>
 <h2>Accounts</h2>
-<p>Email account registration and login must not be treated as active until an authentication provider has been configured, redirect URLs have been restricted to the legitimate PDFLeo domains, email verification and password reset have been tested, and private service credentials are kept out of public client-side code.</p>
+<p>The website includes a Supabase-based sign-up, login and password-recovery interface. Email delivery depends on the project's SMTP/domain configuration and must be tested end to end before being relied upon. Keep redirect URLs restricted to legitimate PDFLeo domains, enforce appropriate database row-level security, and never put private service-role credentials in public client-side code.</p>
 <h2>Certifications and affiliations</h2>
 <p>PDFLeo does not claim ISO/IEC 27001 certification or PDF Association membership unless and until the relevant certification or membership has actually been granted and is current. Security badges must not be interpreted as a substitute for checking the actual configuration and practices.</p>
 <h2>Report a security concern</h2>
