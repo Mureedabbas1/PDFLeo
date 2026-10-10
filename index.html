@@ -306,7 +306,27 @@ if(current==='rotate'){out=pdfs[0];const angle=Number($('angle').value);out.getP
 if(current==='forms'){if(!formFieldNames.length)throw Error('Select a PDF containing supported interactive form fields first.');out=pdfs[0];const form=out.getForm();for(let i=0;i<formFieldNames.length;i++){const def=formFieldNames[i],input=document.querySelector('[data-form-field-index="'+i+'"]');if(!input)continue;const field=form.getField(def.name);if(def.type==='text')field.setText(input.value);else if(def.type==='checkbox'){if(input.checked)field.check();else field.uncheck();}else if(def.type==='choice'&&input.value)field.select(input.value);}form.updateFieldAppearances();return {data:await out.save(),name:'pdfleo-filled-form.pdf',type:'application/pdf',message:'Supported PDF form fields filled. Review the saved document before sharing.'};}
 if(current==='organize'){const p=pdfs[0],total=p.getPageCount(),raw=$('pageOrder')?.value||'',parts=raw.split(',').map(x=>x.trim());if(parts.length!==total||parts.some(x=>!/^\d+$/.test(x)))throw Error('Enter all '+total+' page numbers once, separated by commas (e.g. 3,1,2).');const ids=parts.map(x=>Number(x)-1);if(ids.some(i=>i<0||i>=total)||new Set(ids).size!==total)throw Error('Every page number from 1 to '+total+' must appear exactly once.');out=await PDFDocument.create();(await out.copyPages(p,ids)).forEach(pg=>out.addPage(pg));}
 if(current==='extract'||current==='remove'){const p=pdfs[0],total=p.getPageCount();let ids=parseRange($('range').value,total);if(current==='remove'){const rem=new Set(ids);ids=p.getPageIndices().filter(i=>!rem.has(i));if(!ids.length)throw Error('You cannot remove every page.');}out=await PDFDocument.create();(await out.copyPages(p,ids)).forEach(pg=>out.addPage(pg));}
-if(['compress','optimize','repair'].includes(current)){out=await PDFDocument.create();(await out.copyPages(pdfs[0],pdfs[0].getPageIndices())).forEach(pg=>out.addPage(pg));}
+if(current==='compress'){
+ const lib=await pdfJs(),sourceBytes=new Uint8Array(await files[0].arrayBuffer()),doc=await lib.getDocument({data:sourceBytes}).promise;
+ out=await PDFDocument.create();const scale=1.5,quality=.68;
+ for(let i=1;i<=doc.numPages;i++){
+  report('Compressing page '+i+' of '+doc.numPages+'…');
+  const page=await doc.getPage(i),vp=page.getViewport({scale}),canvas=document.createElement('canvas');
+  canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);
+  await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+  if(!blob)throw Error('Could not render page '+i+' for compression.');
+  const jpg=await out.embedJpg(await blob.arrayBuffer()),width=vp.width/scale,height=vp.height/scale;
+  const outPage=out.addPage([width,height]);outPage.drawImage(jpg,{x:0,y:0,width,height});
+  canvas.width=0;canvas.height=0;
+ }
+ const compressedBytes=await out.save({useObjectStreams:true});
+ if(compressedBytes.byteLength>=sourceBytes.byteLength){
+  return {data:new Blob([sourceBytes],{type:'application/pdf'}),name:'pdfleo-compressed.pdf',type:'application/pdf',message:'This PDF was already smaller than the image-compressed version, so the original was kept to avoid increasing its size.'};
+ }
+ return {data:compressedBytes,name:'pdfleo-compressed.pdf',type:'application/pdf',message:'Compression complete. Pages were rendered as JPEG images; selectable text, links, forms and vector quality may be lost. Review the result before use.'};
+}
+if(['optimize','repair'].includes(current)){out=await PDFDocument.create();(await out.copyPages(pdfs[0],pdfs[0].getPageIndices())).forEach(pg=>out.addPage(pg));}
 if(['numbers','watermark','crop','edit','sign'].includes(current)){out=pdfs[0];const font=await out.embedFont(StandardFonts.Helvetica);for(let i=0;i<out.getPages().length;i++){const p=out.getPages()[i],s=p.getSize();if(current==='numbers')p.drawText((($('prefix')?.value||'Page')+' '+(i+1)),{x:24,y:18,size:10,font,color:rgb(.2,.35,.65)});if(current==='watermark'){const t=$('watermarkText')?.value||'PDFLeo';p.drawText(t,{x:s.width*.18,y:s.height*.5,size:28,font,color:rgb(.65,.68,.74),rotate:degrees(35),opacity:.45});}if(current==='edit'){const t=$('editText')?.value||'';if(!t)throw Error('Enter text to add.');p.drawText(t,{x:40,y:s.height-50,size:14,font,color:rgb(.1,.2,.4)});}if(current==='sign'){const t=$('signText')?.value||'';if(!t)throw Error('Type a signature first.');p.drawText(t,{x:40,y:45,size:18,font,color:rgb(.1,.2,.4)});}if(current==='crop'){const inset=Math.max(0,Number($('cropInset')?.value)||20);p.setCropBox(inset,inset,Math.max(1,s.width-2*inset),Math.max(1,s.height-2*inset));}}}
 if(current==='unlock'||current==='protect'||current==='forms'||current==='pdfa'||current==='translate')throw Error(config[current].sub);
 return {data:await out.save(),name:'pdfleo-'+current+'.pdf',type:'application/pdf',message:current==='repair'?'PDF loaded and re-saved. Severe corruption cannot be repaired by this method.':'Your file is ready.'};
