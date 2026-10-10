@@ -94,12 +94,21 @@ try {
       if (tool === 'crop') await page.locator('#cropInset').fill('10');
       if (tool === 'compress') await page.locator('#compressionQuality').selectOption('low');
       if (tool === 'forms') {
-        await page.waitForFunction(() => document.querySelector('[data-form-field-index="0"]'));
+        const formReady = await Promise.race([
+          page.waitForFunction(() => document.querySelector('[data-form-field-index="0"]')).then(() => 'ready'),
+          page.waitForFunction(() => document.querySelector('#status')?.classList.contains('error')).then(() => 'error')
+        ]);
+        if (formReady === 'error') throw new Error(await page.locator('#status').innerText());
         await page.locator('[data-form-field-index="0"]').fill('Test User');
       }
-      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      console.log('Testing tool: ' + tool);
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 }).then(download => ({ download })).catch(error => ({ waitError: error }));
+      const errorPromise = page.waitForFunction(() => document.querySelector('#status')?.classList.contains('error'), { timeout: 60000 }).then(() => ({ toolError: true })).catch(error => ({ waitError: error }));
       await page.locator('#run').click();
-      const download = await downloadPromise;
+      const outcome = await Promise.race([downloadPromise, errorPromise]);
+      if (outcome.toolError) throw new Error(await page.locator('#status').innerText());
+      if (outcome.waitError) throw outcome.waitError;
+      const download = outcome.download;
       const outputPath = path.join(tmp, 'out-' + tool + '-' + download.suggestedFilename());
       await download.saveAs(outputPath);
       const stat = await fs.stat(outputPath);
