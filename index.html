@@ -82,6 +82,35 @@ footer{background:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.9
 .auth-field{display:grid;gap:7px;margin:13px 0;color:#334155;font-size:13px;font-weight:650}.auth-field input{width:100%;padding:13px 14px;border:1px solid #dbe4f0;border-radius:12px;font:inherit;background:#fff;color:#172554}
 .auth-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}.auth-link{border:0;background:transparent;color:#2563eb;font-weight:700;cursor:pointer;padding:8px 0}.auth-message{font-size:13px;line-height:1.5;margin-top:13px;overflow-wrap:anywhere}.auth-message.error{color:#b42318}.auth-message.ok{color:#08744f}.auth-email{font-weight:750;overflow-wrap:anywhere}
 @media(max-width:520px){.auth-card{padding:22px}.navlinks{gap:8px}.navlinks #authOpen{padding:9px 10px;font-size:12px}}
+
+/* Premium community rating */
+.rating-section{padding:30px 0 56px;background:linear-gradient(180deg,transparent,rgba(37,99,235,.035))}
+.rating-card{position:relative;overflow:hidden;max-width:900px;margin:0 auto;padding:clamp(22px,4vw,38px);border:1px solid #e1e8f3;border-radius:26px;background:linear-gradient(135deg,#fff 0%,#f8fbff 65%,#f1f6ff 100%);box-shadow:0 20px 55px rgba(15,35,75,.08)}
+.rating-card:before{content:"";position:absolute;right:-70px;top:-110px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%);pointer-events:none}
+.rating-top{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;flex-wrap:wrap;position:relative}
+.rating-eyebrow{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;font-weight:800;color:#2563eb;margin-bottom:9px}
+.rating-card h2{margin:0;font-size:clamp(23px,3vw,32px);letter-spacing:-.8px;color:#101828}
+.rating-copy{color:#64748b;line-height:1.65;font-size:14px;margin:9px 0 0;max-width:520px}
+.rating-summary{display:flex;align-items:center;gap:11px;padding:12px 15px;border:1px solid #e4ebf5;border-radius:17px;background:rgba(255,255,255,.8)}
+.rating-score{font-size:29px;line-height:1;font-weight:800;letter-spacing:-1px;color:#15233e}
+.rating-summary-stars{color:#f5aa18;letter-spacing:2px;font-size:15px}
+.rating-count{display:block;color:#7b8799;font-size:11px;margin-top:4px}
+.rating-form{margin-top:25px;padding-top:21px;border-top:1px solid #e7edf5;position:relative}
+.rating-question{font-size:13px;font-weight:750;color:#334155;margin-bottom:10px}
+.rating-stars{display:flex;gap:7px;align-items:center}
+.rating-star{border:1px solid #dce5f2;background:#fff;color:#aab6c7;border-radius:12px;width:46px;height:44px;font-size:25px;line-height:1;cursor:pointer;transition:transform .16s,background .16s,border-color .16s,color .16s,box-shadow .16s}
+.rating-star:hover,.rating-star:focus-visible{transform:translateY(-2px);border-color:#93b4ff;outline:0;box-shadow:0 5px 15px rgba(37,99,235,.12)}
+.rating-star.active{background:#fff8e8;color:#f5aa18;border-color:#f7d68a}
+.rating-star:disabled{cursor:default}
+.rating-review{display:block;width:100%;max-width:590px;min-height:82px;resize:vertical;margin-top:16px;padding:13px 15px;border:1px solid #dce5f2;border-radius:13px;background:#fff;color:#172554;font:inherit;font-size:13px;box-sizing:border-box}
+.rating-review:focus{outline:3px solid rgba(37,99,235,.13);border-color:#7aa2ff}
+.rating-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:13px;padding:12px 19px;border:0;border-radius:12px;background:linear-gradient(120deg,#155eef,#4338ca);color:white;font-weight:750;font-size:13px;cursor:pointer;box-shadow:0 8px 18px rgba(37,99,235,.2);transition:transform .15s,box-shadow .15s}
+.rating-submit:hover{transform:translateY(-1px);box-shadow:0 12px 22px rgba(37,99,235,.25)}
+.rating-submit:disabled{opacity:.6;cursor:wait;transform:none}
+.rating-status{font-size:12px;color:#64748b;margin-top:10px;min-height:18px}.rating-status.ok{color:#08744f}.rating-status.error{color:#b42318}
+.rating-privacy{font-size:11px;color:#8491a4;margin-top:8px}
+@media(max-width:520px){.rating-summary{padding:10px 12px}.rating-star{width:42px;height:42px}.rating-top{gap:16px}.rating-card{border-radius:21px}}
+
 </style>
 </head>
 <body>
@@ -117,6 +146,32 @@ footer{background:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.9
 <div class="toolbox" id="toolbox"><h3 id="toolTitle">Choose a tool</h3><p class="sub" id="toolSub">Your files stay on your device while this page is open.</p><div class="drop"><strong id="dropTitle">Select your PDF files</strong><p class="notice" id="fileHint">Choose files from your device to begin.</p><input id="files" type="file" multiple accept=".pdf,application/pdf"></div><div id="options" class="actions"></div><div class="actions"><button class="btn" id="run">Process files</button><button class="btn secondary" id="clear">Reset</button></div><div class="status" id="status" role="status" aria-live="polite"></div><p class="notice">Note: PDFLeo currently processes selected files locally using your browser. Do not close this tab before processing finishes.</p></div>
 <div class="privacy" id="privacy"><div class="shield">🛡️</div><div><h3>Your files are yours</h3><p>PDF processing runs locally in your browser using a third-party PDF library. PDFLeo does not upload your selected files to its own server. For sensitive documents, use a device and browser you trust.</p></div></div>
 </section></main>
+
+<section class="rating-section" aria-labelledby="ratingHeading">
+ <div class="wrap">
+  <div class="rating-card">
+   <div class="rating-top">
+    <div><div class="rating-eyebrow">Your feedback matters</div><h2 id="ratingHeading">How was your PDFLeo experience?</h2><p class="rating-copy">Help us make PDF tools simpler and better. Leave a quick star rating and, if you like, tell us what we can improve.</p></div>
+    <div class="rating-summary" aria-live="polite"><div class="rating-score" id="ratingAverage">—</div><div><div class="rating-summary-stars" id="ratingSummaryStars" aria-label="No ratings yet">☆☆☆☆☆</div><span class="rating-count" id="ratingCount">Be the first to rate</span></div></div>
+   </div>
+   <form class="rating-form" id="siteRatingForm">
+    <div class="rating-question" id="ratingQuestion">Choose a rating from 1 to 5 stars</div>
+    <div class="rating-stars" role="group" aria-labelledby="ratingQuestion">
+     <button class="rating-star" type="button" data-rating="1" aria-label="1 star" aria-pressed="false">★</button>
+     <button class="rating-star" type="button" data-rating="2" aria-label="2 stars" aria-pressed="false">★</button>
+     <button class="rating-star" type="button" data-rating="3" aria-label="3 stars" aria-pressed="false">★</button>
+     <button class="rating-star" type="button" data-rating="4" aria-label="4 stars" aria-pressed="false">★</button>
+     <button class="rating-star" type="button" data-rating="5" aria-label="5 stars" aria-pressed="false">★</button>
+    </div>
+    <textarea class="rating-review" id="ratingReview" maxlength="500" placeholder="Optional: What did you like, or what should we improve?"></textarea>
+    <button class="rating-submit" id="ratingSubmit" type="submit">Submit rating <span aria-hidden="true">→</span></button>
+    <div class="rating-status" id="ratingStatus" role="status" aria-live="polite"></div>
+    <div class="rating-privacy">Your review is optional. Please don’t include private or sensitive information.</div>
+   </form>
+  </div>
+ </div>
+</section>
+
 <footer><div class="wrap foot"><div><a href="#" aria-label="PDFLeo home"><img src="brand-logo.svg" alt="PDFLeo" width="150" height="35" style="display:block;max-width:48vw;height:auto"></a><div style="margin-top:7px">Simple tools for everyday documents.</div><div style="margin-top:6px">© <span id="year"></span> PDFLeo</div></div><div class="footlinks"><a href="#tools">PDF Tools</a><a href="guides.html">Tool Guides</a><a href="blog.html">Blog</a><a href="workflows.html">Workflows</a><a href="pricing.html">Plans</a><a href="faq.html">FAQ</a><a href="about.html">About</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="security.html">Security</a><a href="mailto:hello@pdfleo.online">Contact</a></div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -251,4 +306,53 @@ if(current==='unlock'||current==='protect'||current==='forms'||current==='pdfa'|
 return {data:await out.save(),name:'pdfleo-'+current+'.pdf',type:'application/pdf',message:current==='repair'?'PDF loaded and re-saved. Severe corruption cannot be repaired by this method.':'Your file is ready.'};
 }
 $('run').addEventListener('click',async()=>{const files=[...$('files').files];$('run').disabled=true;try{report('Processing locally in your browser…');const result=await runTool(files);download(result.data,result.name,result.type);report(result.message,'ok');void recordToolUsage(current);}catch(e){report(e.message||'Something went wrong. Please check your files and try again.','error');}finally{$('run').disabled=false;}});
+
+/* PDFLeo public rating widget */
+(()=>{
+ const form=document.getElementById('siteRatingForm');
+ if(!form)return;
+ const stars=[...form.querySelectorAll('[data-rating]')];
+ const status=document.getElementById('ratingStatus');
+ const submit=document.getElementById('ratingSubmit');
+ const average=document.getElementById('ratingAverage');
+ const summaryStars=document.getElementById('ratingSummaryStars');
+ const count=document.getElementById('ratingCount');
+ let selected=0;
+ const storageKey='pdfleo_site_rating_v1';
+ function statusText(message,kind=''){status.textContent=message;status.className='rating-status '+kind;}
+ function paintStars(value){stars.forEach((b,i)=>{const active=i<value;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(Number(b.dataset.rating)===value));});}
+ stars.forEach(b=>b.addEventListener('click',()=>{if(localStorage.getItem(storageKey))return;selected=Number(b.dataset.rating);paintStars(selected);statusText('You selected '+selected+' out of 5 stars.');}));
+ async function loadSummary(){
+  if(!supabaseClient){average.textContent='—';count.textContent='Ratings temporarily unavailable';return;}
+  try{const {data,error}=await supabaseClient.from('site_ratings').select('rating');if(error)throw error;
+   const total=(data||[]).length;const avg=total?(data.reduce((sum,row)=>sum+Number(row.rating||0),0)/total):0;
+   average.textContent=total?avg.toFixed(1):'—';summaryStars.textContent=total?'★'.repeat(Math.round(avg))+'☆'.repeat(5-Math.round(avg)):'☆☆☆☆☆';
+   summaryStars.setAttribute('aria-label',total?avg.toFixed(1)+' out of 5 stars':'No ratings yet');
+   count.textContent=total?(total+' '+(total===1?'rating':'ratings')):'Be the first to rate';
+  }catch(e){count.textContent='Rating summary unavailable';}
+ }
+ try{
+  const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+  if(saved&&saved.rating){selected=Number(saved.rating);paintStars(selected);stars.forEach(b=>b.disabled=true);document.getElementById('ratingReview').disabled=true;submit.disabled=true;submit.textContent='Rating submitted ✓';statusText('Thanks for sharing your feedback!','ok');}
+ }catch(e){}
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();
+  if(!selected){statusText('Please select a star rating first.','error');return;}
+  if(!supabaseClient){statusText('Rating service is unavailable right now. Please try again later.','error');return;}
+  if(localStorage.getItem(storageKey)){statusText('You have already rated PDFLeo on this browser. Thank you!','ok');return;}
+  submit.disabled=true;statusText('Submitting your rating…');
+  try{
+   let visitorId=localStorage.getItem('pdfleo_rating_visitor_id');
+   if(!visitorId){visitorId=crypto.randomUUID();localStorage.setItem('pdfleo_rating_visitor_id',visitorId);}
+   const review=document.getElementById('ratingReview').value.trim();
+   const {error}=await supabaseClient.from('site_ratings').insert({visitor_id:visitorId,rating:selected,review:review||null,page_path:location.pathname||'/'});
+   if(error){if(error.code==='23505')throw new Error('A rating from this browser has already been recorded.');throw error;}
+   localStorage.setItem(storageKey,JSON.stringify({rating:selected,at:new Date().toISOString()}));
+   stars.forEach(b=>b.disabled=true);document.getElementById('ratingReview').disabled=true;submit.textContent='Rating submitted ✓';
+   statusText('Thank you! Your rating has been submitted.','ok');await loadSummary();
+  }catch(e){statusText(e.message==='Failed to fetch'?'Could not connect. Please check your internet and try again.':(e.message||'Could not submit your rating. Please try again.'),'error');submit.disabled=false;}
+ });
+ loadSummary();
+})();
+
 </script></body></html>
