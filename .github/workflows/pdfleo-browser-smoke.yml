@@ -1,0 +1,33 @@
+name: PDFLeo browser smoke tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install browser test dependencies
+        run: |
+          npm install --no-save playwright pdf-lib docx xlsx pptxgenjs
+          npx playwright install --with-deps chromium
+      - name: Run PDF tool smoke tests
+        run: node tests/pdfleo-smoke.mjs
+      - name: Upload smoke test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfleo-smoke-test-results
+          path: /tmp/pdfleo-smoke-results.json
+          if-no-files-found: warn
