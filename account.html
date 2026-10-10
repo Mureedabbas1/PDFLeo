@@ -47,7 +47,7 @@ a{color:inherit;text-decoration:none}.wrap{width:min(1000px,92%);margin:auto}.to
 </div>
 <section class="wrap card storage-card" id="storageCard" hidden>
   <div class="storage-head"><div><h2>My saved PDFs</h2><p>Save PDFs privately in your account and download them whenever you need them.</p></div><span class="btn">100 MB free storage</span></div>
-  <div class="storage-meter" role="progressbar" aria-label="PDF storage used" aria-valuemin="0" aria-valuemax="100"><div class="storage-fill" id="storageFill"></div></div>
+  <div class="storage-meter" id="storageMeter" role="progressbar" aria-label="PDF storage used" aria-valuemin="0" aria-valuemax="100"><div class="storage-fill" id="storageFill"></div></div>
   <div class="storage-stats"><span id="storageUsed">0 MB used</span><span id="storageRemaining">100 MB free</span></div>
   <div class="upload-row"><label class="btn primary" for="pdfUpload">＋ Save a PDF</label><input id="pdfUpload" type="file" accept="application/pdf,.pdf" hidden><span class="hint">PDF only · max 25 MB per file · 100 MB total</span></div>
   <div class="storage-message" id="storageMessage" role="status" aria-live="polite"></div>
