@@ -22,7 +22,7 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const html = fs.readFileSync('index.html', 'utf8');
-          const scripts = [...html.matchAll(/<script\b(?![^>]*\bsrc\s*=)[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
+          const scripts = [...html.matchAll(/<script\b(?![^>]*\bsrc\s*=)(?![^>]*\btype\s*=\s*["\']application\/ld\+json["\'])[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
           if (!scripts.length) throw new Error('No inline JavaScript found in index.html');
           fs.writeFileSync('/tmp/pdfleo-inline.js', scripts.join('\n;\n'));
           const cards = [...html.matchAll(/data-tool="([^"]+)"/g)].map(m => m[1]);
