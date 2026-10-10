@@ -27,7 +27,10 @@ await makePdf('sample2.pdf', ['PDFLeo different page', 'A changed second page'])
 const formPdf = await PDFDocument.create();
 const formPage = formPdf.addPage([595, 842]);
 formPage.drawText('Form test', { x: 50, y: 780, size: 18, font: await formPdf.embedFont(StandardFonts.Helvetica) });
-formPdf.getForm().createTextField('test_name').addToPage(formPage, { x: 50, y: 700, width: 220, height: 28 });
+const form = formPdf.getForm();
+const testField = form.createTextField('test_name');
+testField.addToPage(formPage, { x: 50, y: 700, width: 220, height: 28 });
+form.updateFieldAppearances();
 await fs.writeFile(path.join(tmp, 'form.pdf'), await formPdf.save());
 await fs.writeFile(path.join(tmp, 'sample.txt'), 'PDFLeo Word conversion test. This text should appear in the output PDF.');
 await fs.writeFile(path.join(tmp, 'sample.html'), '<html><body><h1>PDFLeo HTML test</h1><p>HTML to PDF sample.</p></body></html>');
@@ -96,7 +99,7 @@ try {
       if (tool === 'forms') {
         const formReady = await Promise.race([
           page.waitForFunction(() => document.querySelector('[data-form-field-index="0"]')).then(() => 'ready'),
-          page.waitForFunction(() => document.querySelector('#status')?.classList.contains('error')).then(() => 'error')
+          page.waitForFunction(() => document.querySelector('#status')?.classList.contains('error') || document.querySelector('#status')?.textContent.includes('No interactive AcroForm fields')).then(() => 'error')
         ]);
         if (formReady === 'error') throw new Error(await page.locator('#status').innerText());
         await page.locator('[data-form-field-index="0"]').fill('Test User');
