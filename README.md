@@ -100,3 +100,11 @@ The homepage applies a 25 MB per-file and 60 MB total-selection limit to help av
 
 ## Brand
 White, silver and electric blue with a clean, modern, mobile-friendly interface. The lion-inspired mark is in `logo.svg`.
+
+## Supabase security maintenance
+
+The production database security hardening recorded in [supabase-security-fixes.sql](./supabase-security-fixes.sql) moves the saved-PDF quota helper out of the exposed `public` schema, updates profile RLS policies to cache `auth.uid()`, and adds an index for the saved-PDF account query. This SQL was applied to the connected PDFLeo Supabase project on 2026-10-10 and is kept in the repository for reproducibility. The Supabase security advisor still reports **Leaked Password Protection Disabled**; enable it in Supabase Dashboard → Authentication → Settings → Password Security.
+
+## Latest automated checks
+
+The GitHub Actions checks on 2026-10-10 passed: JavaScript syntax/tool-card validation and browser smoke tests for 29 browser tools. Five specialist-engine tools (PDF/A, Unlock, Protect, Redact and Translate) are intentionally disabled and are not represented as working features. The smoke tests do not replace live checks of DNS/HTTPS, email delivery, or account flows.
