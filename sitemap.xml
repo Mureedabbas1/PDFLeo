@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://pdfleo.online/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://pdfleo.online/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfleo.online/faq.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://pdfleo.online/guides.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://pdfleo.online/blog.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://pdfleo.online/workflows.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://pdfleo.online/pricing.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://pdfleo.online/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://pdfleo.online/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://pdfleo.online/security.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
