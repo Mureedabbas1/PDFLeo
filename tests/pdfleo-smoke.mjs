@@ -3,7 +3,7 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { Document, Packer, Paragraph } from 'docx';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
-import PDFDocument from 'pdfkit';
+import PDFKitDocument from 'pdfkit';
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
@@ -25,7 +25,7 @@ async function makePdf(name, pages = ['PDFLeo sample page one', 'PDFLeo sample p
 }
 await makePdf('sample.pdf');
 await makePdf('sample2.pdf', ['PDFLeo different page', 'A changed second page']);
-async function makeProtectedPdf(name, password) { const chunks=[]; const pdf=new PDFDocument({userPassword:password,ownerPassword:password}); pdf.on('data',chunk=>chunks.push(chunk)); const done=new Promise(resolve=>pdf.on('end',resolve)); pdf.text('PDFLeo password protected fixture'); pdf.end(); await done; await fs.writeFile(path.join(tmp,name),Buffer.concat(chunks)); }
+async function makeProtectedPdf(name, password) { const chunks=[]; const pdf=new PDFKitDocument({userPassword:password,ownerPassword:password}); pdf.on('data',chunk=>chunks.push(chunk)); const done=new Promise(resolve=>pdf.on('end',resolve)); pdf.text('PDFLeo password protected fixture'); pdf.end(); await done; await fs.writeFile(path.join(tmp,name),Buffer.concat(chunks)); }
 await makeProtectedPdf('protected.pdf','test1234');
 const formPdf = await PDFDocument.create();
 const formPage = formPdf.addPage([595, 842]);
