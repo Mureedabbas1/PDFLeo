@@ -3,6 +3,7 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { Document, Packer, Paragraph } from 'docx';
 import * as XLSX from 'xlsx';
 import JSZip from 'jszip';
+import PDFDocument from 'pdfkit';
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
@@ -24,6 +25,8 @@ async function makePdf(name, pages = ['PDFLeo sample page one', 'PDFLeo sample p
 }
 await makePdf('sample.pdf');
 await makePdf('sample2.pdf', ['PDFLeo different page', 'A changed second page']);
+async function makeProtectedPdf(name, password) { const chunks=[]; const pdf=new PDFDocument({userPassword:password,ownerPassword:password}); pdf.on('data',chunk=>chunks.push(chunk)); const done=new Promise(resolve=>pdf.on('end',resolve)); pdf.text('PDFLeo password protected fixture'); pdf.end(); await done; await fs.writeFile(path.join(tmp,name),Buffer.concat(chunks)); }
+await makeProtectedPdf('protected.pdf','test1234');
 const formPdf = await PDFDocument.create();
 const formPage = formPdf.addPage([595, 842]);
 formPage.drawText('Form test', { x: 50, y: 780, size: 18, font: await formPdf.embedFont(StandardFonts.Helvetica) });
@@ -69,9 +72,10 @@ const fixtures = {
   htmlpdf: ['sample.html'], pdfjpg: ['sample.pdf'], pdfword: ['sample.pdf'], pdfppt: ['sample.pdf'],
   pdfexcel: ['sample.pdf'], rotate: ['sample.pdf'], numbers: ['sample.pdf'], watermark: ['sample.pdf'],
   crop: ['sample.pdf'], edit: ['sample.pdf'], forms: ['form.pdf'], sign: ['sample.pdf'],
-  compare: ['sample.pdf', 'sample2.pdf'], summary: ['sample.pdf'], markdown: ['sample.pdf']
+  compare: ['sample.pdf', 'sample2.pdf'], summary: ['sample.pdf'], markdown: ['sample.pdf'],
+  unlock: ['protected.pdf'], protect: ['sample.pdf'], redact: ['sample.pdf'], translate: ['sample.pdf']
 };
-const serviceTools = ['pdfa', 'unlock', 'protect', 'redact', 'translate'];
+const serviceTools = ['pdfa'];
 try {
   const page = await browser.newPage({ acceptDownloads: true });
   page.setDefaultTimeout(45000);
@@ -98,6 +102,10 @@ try {
       if (tool === 'sign') await page.locator('#signText').fill('Test Signature');
       if (tool === 'crop') await page.locator('#cropInset').fill('10');
       if (tool === 'compress') await page.locator('#compressionQuality').selectOption('low');
+      if (tool === 'unlock') await page.locator('#unlockPassword').fill('test1234');
+      if (tool === 'protect') { await page.locator('#protectPassword').fill('newpass123'); await page.locator('#protectPasswordConfirm').fill('newpass123'); }
+      if (tool === 'redact') { await page.locator('#redactPage').fill('1'); await page.locator('#redactX').fill('40'); await page.locator('#redactY').fill('40'); await page.locator('#redactW').fill('180'); await page.locator('#redactH').fill('50'); }
+      if (tool === 'translate') { await page.locator('#translateSource').selectOption('en'); await page.locator('#translateTarget').selectOption('es'); }
       if (tool === 'forms') {
         const formReady = await Promise.race([
           page.waitForFunction(() => document.querySelector('[data-form-field-index="0"]')).then(() => 'ready'),
