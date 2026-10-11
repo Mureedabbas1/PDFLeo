@@ -73,9 +73,9 @@ const fixtures = {
   pdfexcel: ['sample.pdf'], rotate: ['sample.pdf'], numbers: ['sample.pdf'], watermark: ['sample.pdf'],
   crop: ['sample.pdf'], edit: ['sample.pdf'], forms: ['form.pdf'], sign: ['sample.pdf'],
   compare: ['sample.pdf', 'sample2.pdf'], summary: ['sample.pdf'], markdown: ['sample.pdf'],
-  unlock: ['protected.pdf'], protect: ['sample.pdf'], redact: ['sample.pdf'], translate: ['sample.pdf']
+  unlock: ['protected.pdf'], protect: ['sample.pdf'], redact: ['sample.pdf'], translate: ['sample.pdf'], pdfa: ['sample.pdf']
 };
-const serviceTools = ['pdfa'];
+const serviceTools = [];
 try {
   const page = await browser.newPage({ acceptDownloads: true });
   page.setDefaultTimeout(45000);
@@ -102,6 +102,7 @@ try {
       if (tool === 'sign') await page.locator('#signText').fill('Test Signature');
       if (tool === 'crop') await page.locator('#cropInset').fill('10');
       if (tool === 'compress') await page.locator('#compressionQuality').selectOption('low');
+      if (tool === 'pdfa') await page.locator('#pdfaLevel').selectOption('2');
       if (tool === 'unlock') await page.locator('#unlockPassword').fill('test1234');
       if (tool === 'protect') { await page.locator('#protectPassword').fill('newpass123'); await page.locator('#protectPasswordConfirm').fill('newpass123'); }
       if (tool === 'redact') { await page.locator('#redactPage').fill('1'); await page.locator('#redactX').fill('40'); await page.locator('#redactY').fill('40'); await page.locator('#redactW').fill('180'); await page.locator('#redactH').fill('50'); }
