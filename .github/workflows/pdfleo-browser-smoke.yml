@@ -20,7 +20,7 @@ jobs:
           node-version: 20
       - name: Install browser test dependencies
         run: |
-          npm install --no-save playwright pdf-lib docx xlsx jszip
+          npm install --no-save playwright pdf-lib docx xlsx jszip pdfkit
           npx playwright install --with-deps chromium
       - name: Run PDF tool smoke tests
         run: node tests/pdfleo-smoke.mjs
