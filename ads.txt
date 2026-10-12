@@ -1,1 +1,2 @@
+# PDFLeo AdSense publisher declaration
 google.com, pub-6162822251101594, DIRECT, f08c47fec0942fa0
