@@ -1,4 +1,5 @@
 name: Deploy PDFLeo to GitHub Pages
+# Deployment workflow: publishes the latest main branch contents.
 
 on:
   push:
