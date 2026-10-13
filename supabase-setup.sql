@@ -24,7 +24,7 @@ for insert
 to anon
 with check (
   tool_name in (
-    'merge','images','rotate','extract','split','remove','compress','optimize',
+    'merge','organize','images','rotate','extract','split','remove','compress','optimize',
     'repair','scan','jpgpdf','htmlpdf','pdfjpg','pdfword','pdfexcel','markdown',
     'summary','compare','numbers','watermark','crop','edit','sign','redact',
     'ocr','wordpdf','excelpdf','pptpdf','pdfppt','unlock','protect','forms',
