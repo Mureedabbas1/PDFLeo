@@ -343,7 +343,7 @@ footer,.foot{color:var(--pl-muted)}
 </section>
 
 <footer><div class="wrap foot"><div><a href="#" aria-label="PDFLeo home" style="font-size:22px;font-weight:850;letter-spacing:-1px;color:#172554">PDF<span style="color:#2563eb">Leo</span></a><div style="margin-top:7px">Simple tools for everyday documents.</div><div style="margin-top:6px">© <span id="year"></span> PDFLeo</div></div><div class="footlinks"><a href="#tools">PDF Tools</a><a href="guides.html">Tool Guides</a><a href="blog.html">Blog</a><a href="workflows.html">Workflows</a><a href="pricing.html">Plans</a><a href="faq.html">FAQ</a><a href="about.html">About</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="security.html">Security</a><a href="contact.html">Contact</a></div></div></footer>
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const $=id=>document.getElementById(id);$('year').textContent=new Date().getFullYear();
