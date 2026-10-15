@@ -1,3 +1,1 @@
-# PDFLeo AdSense publisher declaration
-# Published at the site root for AdSense verification
 google.com, pub-6162822251101594, DIRECT, f08c47fec0942fa0
