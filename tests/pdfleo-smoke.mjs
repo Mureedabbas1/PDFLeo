@@ -68,7 +68,7 @@ const fixtures = {
   merge: ['sample.pdf', 'sample2.pdf'], split: ['sample.pdf'], compress: ['sample.pdf'],
   remove: ['sample.pdf'], extract: ['sample.pdf'], organize: ['sample.pdf'],
   scan: ['sample.png'], optimize: ['sample.pdf'], repair: ['sample.pdf'], ocr: ['sample.pdf'],
-  jpgpdf: ['sample.png'], wordpdf: ['sample.docx'], pptpdf: ['sample.pptx'], excelpdf: ['sample.xlsx'],
+  jpgpdf: ['sample.png'], images: ['sample.png'], wordpdf: ['sample.docx'], pptpdf: ['sample.pptx'], excelpdf: ['sample.xlsx'],
   htmlpdf: ['sample.html'], pdfjpg: ['sample.pdf'], pdfword: ['sample.pdf'], pdfppt: ['sample.pdf'],
   pdfexcel: ['sample.pdf'], rotate: ['sample.pdf'], numbers: ['sample.pdf'], watermark: ['sample.pdf'],
   crop: ['sample.pdf'], edit: ['sample.pdf'], forms: ['form.pdf'], sign: ['sample.pdf'],
