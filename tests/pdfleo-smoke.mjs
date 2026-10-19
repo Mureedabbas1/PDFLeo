@@ -81,10 +81,11 @@ try {
   page.setDefaultTimeout(45000);
   page.on('pageerror', err => results.push({ tool: 'PAGE', status: 'console-error', detail: err.message }));
   await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => !!window.PDFLib, { timeout: 30000 });
   for (const tool of Object.keys(fixtures)) {
     try {
       await page.locator('[data-tool="' + tool + '"]').click();
+      // PDF-lib is intentionally loaded only when a user opens a tool.
+      await page.waitForFunction(() => !!window.PDFLib, { timeout: 30000 });
       await page.locator('#files').setInputFiles(await Promise.all(fixtures[tool].map(async name => ({ name, mimeType:
         name.endsWith('.pdf') ? 'application/pdf' : name.endsWith('.png') ? 'image/png' :
         name.endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
