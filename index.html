@@ -268,8 +268,8 @@ footer,.foot{color:var(--pl-muted)}
 /* end PDFLEO_GLASS_THEME_V1 */
 
 
-/* Defer painting long sections until near the viewport to reduce initial mobile rendering work. */
-@supports (content-visibility:auto){.section{content-visibility:auto;contain-intrinsic-size:auto 1500px}footer{content-visibility:auto;contain-intrinsic-size:auto 120px}}
+/* Keep the glass theme, but avoid expensive backdrop blur and fixed backgrounds on phones. */
+@media(max-width:760px){body{background-attachment:scroll}.nav,.hero,.tool,.tool-controls,.pill,.btn.secondary,.filter,.storage-offer{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.tool{box-shadow:0 5px 16px rgba(41,70,120,.06)}.storage-offer{animation:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 <meta name="author" content="PDFLeo">
