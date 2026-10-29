@@ -277,6 +277,61 @@ footer,.foot{color:var(--pl-muted)}
 }
 /* Keep the first-screen offer immediately paintable for faster LCP */
 .storage-offer{animation:none!important}
+
+/* Mobile-first app experience: compact header, touch-friendly cards and bottom app dock */
+.mobile-app-dock{display:none}
+@media(max-width:600px){
+  body{background-attachment:scroll;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+  .wrap{width:min(100% - 28px,560px)}
+  .nav{position:sticky;top:8px;z-index:80;margin-top:8px;min-height:60px;height:auto;flex-wrap:nowrap;gap:8px;padding:8px 11px;border-radius:18px;background:rgba(255,255,255,.84);box-shadow:0 8px 26px rgba(28,55,100,.12)}
+  .nav>a img{width:138px;height:auto;max-width:42vw}
+  .navlinks{display:flex;flex:0 0 auto;gap:6px;margin-left:auto;align-items:center}
+  .navlinks>a:not(.nav-buy),.nav-buy{display:none!important}
+  .navlinks .theme-toggle{font-size:0;width:36px;height:36px;padding:0;border-radius:12px}
+  .navlinks .theme-toggle:after{content:'◐';font-size:17px}
+  .nav-auth{gap:5px;margin:0}
+  .auth-nav-login,.auth-nav-signup{min-height:35px;padding:0 9px;font-size:11px;border-radius:10px}
+  .auth-nav-signup{display:none}
+  .hero{margin-top:10px;padding:38px 0 28px;border-radius:0 0 24px 24px}
+  .hero h1{font-size:clamp(34px,9vw,43px);line-height:1.06;letter-spacing:-1.6px;margin:17px auto 12px;padding:0 5px}
+  .hero p{font-size:14px;line-height:1.6;padding:0 5px}
+  .eyebrow{font-size:10px;padding:7px 10px}
+  .hero-actions{gap:9px;margin-top:19px}
+  .hero-actions .btn{flex:1;justify-content:center;min-height:46px;padding:12px 10px;font-size:13px}
+  .trust{gap:9px 14px;margin-top:18px;font-size:10px}
+  .storage-offer{margin-top:18px;border-radius:18px;padding:15px}
+  .section{padding:30px 0 38px}
+  .section-head{margin-bottom:18px}
+  .section-head h2{font-size:23px;letter-spacing:-.6px}
+  .section-head p{font-size:12px;line-height:1.5}
+  .tool-controls{padding:11px;border-radius:16px;gap:10px}
+  .tool-controls input{min-height:46px;font-size:16px}
+  .filters{gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:1px 0 5px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filter{flex:0 0 auto;padding:8px 11px;font-size:11px;white-space:nowrap}
+  .tools{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tool{min-height:174px;padding:14px 12px;border-radius:17px}
+  .ico{width:40px;height:40px;font-size:19px;margin-bottom:11px;border-radius:13px}
+  .tool h3{font-size:14px;line-height:1.25;margin-bottom:6px}
+  .tool p{font-size:11px;line-height:1.45;margin-bottom:11px}
+  .tool-foot{align-items:flex-end}
+  .tool-foot button{font-size:11px}
+  .tool-status{font-size:8px;padding:4px 6px}
+  .privacy{padding:17px;gap:13px;border-radius:17px}
+  .privacy h3{font-size:15px}.privacy p{font-size:11px}
+  .toolbox{padding:17px;margin-top:18px;border-radius:19px}
+  .drop{padding:18px 12px}
+  .rating-section{padding:18px 0 30px}
+  .rating-card{border-radius:20px}
+  footer{padding:22px 0}
+  .mobile-app-dock{position:fixed;display:grid;grid-template-columns:repeat(4,1fr);left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:120;min-height:62px;padding:7px 5px;border:1px solid rgba(255,255,255,.92);border-radius:20px;background:rgba(255,255,255,.88);box-shadow:0 10px 35px rgba(24,45,85,.18);backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%)}
+  .dock-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;border:0;background:transparent;color:#52627b;font:inherit;text-decoration:none;cursor:pointer;border-radius:13px}
+  .dock-item span{font-size:21px;line-height:1.15;color:#2563eb}
+  .dock-item small{font-size:10px;font-weight:750;letter-spacing:.1px}
+  .dock-item:active{background:#eaf1ff}
+}
+@media(max-width:360px){.nav>a img{width:120px}.auth-nav-login{padding:0 7px}.tools{gap:8px}.tool{padding:12px 10px}.tool h3{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.mobile-app-dock{scroll-behavior:auto}}
 </style>
 <meta name="author" content="PDFLeo">
 <script type="application/ld+json">
@@ -319,6 +374,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="wrap nav"><a href="#" aria-label="PDFLeo home" style="display:inline-flex;align-items:center"><img src="/brand-logo.svg?v=20261014-leo-pdf" alt="PDFLeo — PDF tools made simple" width="180" height="42" style="display:block;max-width:48vw;height:auto"></a><nav class="navlinks"><a href="#tools">PDF Tools</a><a href="guides.html">Guides</a><a href="blog.html">Blog</a><a href="faq.html">FAQ</a><a href="about.html">About</a><a class="pill nav-buy" href="pricing.html">Buy Plan <span aria-hidden="true">↗</span></a><button class="theme-toggle" id="pdfleoThemeToggle" type="button" aria-label="Switch color theme" aria-pressed="false">☼ Light</button><div class="nav-auth"><button class="auth-nav-login" id="authOpen" type="button">Log in</button><button class="auth-nav-signup" id="authSignup" type="button">Sign up <span aria-hidden="true">↗</span></button></div></nav></header>
+<nav class="mobile-app-dock" aria-label="Main mobile navigation">
+  <a href="#" class="dock-item" aria-label="Home"><span aria-hidden="true">⌂</span><small>Home</small></a>
+  <a href="#tools" class="dock-item" aria-label="PDF tools"><span aria-hidden="true">▦</span><small>Tools</small></a>
+  <a href="guides.html" class="dock-item" aria-label="Guides"><span aria-hidden="true">▤</span><small>Guides</small></a>
+  <button type="button" class="dock-item" id="mobileAccountOpen" aria-label="Open account"><span aria-hidden="true">◎</span><small>Account</small></button>
+</nav>
+
 <div class="auth-open" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
   <div class="auth-card">
     <button class="auth-close" id="authClose" type="button" aria-label="Close">×</button>
@@ -717,4 +779,8 @@ $('run').addEventListener('click',async()=>{const files=[...$('files').files];$(
 })();
 </script>
 
+
+<script>
+(()=>{const b=document.getElementById('mobileAccountOpen');if(b)b.addEventListener('click',()=>{const login=document.getElementById('authOpen');if(login)login.click();});})();
+</script>
 </body></html>
