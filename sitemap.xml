@@ -7,7 +7,7 @@
   <url><loc>https://pdfleo.online/guides.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://pdfleo.online/blog.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pdfleo.online/workflows.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://pdfleo.online/pricing.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+
   <url><loc>https://pdfleo.online/privacy.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://pdfleo.online/terms.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://pdfleo.online/security.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
