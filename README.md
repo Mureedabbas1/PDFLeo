@@ -10,7 +10,7 @@ PDFLeo is a static website built with HTML, CSS and vanilla JavaScript. Supporte
 
 ## Tool catalogue and limitations
 
-The homepage lists 34 PDF/document tools. Availability does not mean every tool preserves the source document's layout or features. Check the description shown in the tool and inspect downloaded output before relying on it.
+The homepage lists 35 PDF/document tools. Its current interface marks 29 as Ready, 1 as Beta and 5 as Limited. These are interface status labels, not a promise of lossless conversion or suitability for every file. Check the description shown in the tool and inspect downloaded output before relying on it.
 
 - **Basic PDF operations:** merge, split, extract, organize, rotate and remove pages.
 - **Images and rendering:** images/JPG to PDF, scan photos to PDF, PDF to JPG and PDF to PowerPoint (page images).
@@ -24,7 +24,7 @@ The homepage lists 34 PDF/document tools. Availability does not mean every tool 
 - **Redact PDF:** rasterizes pages and covers a specified rectangle on one page. It is not a certified specialist redaction workflow; inspect the complete output carefully and use a verified specialist tool for high-risk/legal documents.
 - **Translate PDF text:** sends extracted selectable text to the third-party MyMemory translation service and downloads translated text as TXT. It does not preserve the original PDF layout or images. Do not use it for confidential or sensitive documents unless you accept the provider's data terms.
 
-The interface may use a “Ready” label for an available operation; it does not guarantee lossless conversion, compliance certification or success with every file. Beta or file-dependent results must be reviewed before use.
+The interface currently labels 29 tools Ready, one Beta and five Limited. “Ready” does not guarantee lossless conversion, compliance certification or success with every file. Beta and Limited results must be reviewed before use.
 
 ## Technology
 
