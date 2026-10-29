@@ -6,7 +6,7 @@
 - Repository: https://github.com/Mureedabbas1/PDFLeo
 - Hosting: GitHub Pages with the custom domain `pdfleo.online`
 
-PDFLeo is a static website built with HTML, CSS and vanilla JavaScript. Supported tools process documents in the browser where possible. An internet connection is required to load third-party libraries and to use the Translate PDF feature, which sends extracted selectable text to the MyMemory translation API.
+PDFLeo is a static website built with HTML, CSS and vanilla JavaScript. Supported tools process documents in the browser where possible. An internet connection is required to load third-party libraries and to use the Translate PDF feature, which sends extracted selectable text to the MyMemory translation API. Cloud PDF storage and paid storage plans are planned offers only and are not active in the current public version; the account page currently provides profile-related features, not a cloud PDF library.
 
 ## Tool catalogue and limitations
 
