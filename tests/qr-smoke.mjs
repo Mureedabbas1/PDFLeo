@@ -58,7 +58,7 @@ try {
         if (field.type === 'checkbox' || field.type === 'radio' || field.type === 'hidden' || field.type === 'file') continue;
         const id = (field.id || '').toLowerCase();
         let value = 'PDFLeo test';
-        if (id.includes('url') || id.includes('link')) value = 'https://example.com/test';
+        if (id.includes('url') || id.includes('link') || id === 'value') value = 'https://example.com/test';
         else if (id.includes('email')) value = 'hello@example.com';
         else if (id.includes('phone') || id.includes('tel')) value = '+923001234567';
         else if (id.includes('ssid')) value = 'PDFLeo Test WiFi';
