@@ -24,6 +24,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Run PDF tool smoke tests
         run: node tests/pdfleo-smoke.mjs
+      - name: Run all 30 QR generator smoke tests
+        run: node tests/qr-smoke.mjs
       - name: Upload smoke test results
         if: always()
         uses: actions/upload-artifact@v4
