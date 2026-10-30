@@ -50,7 +50,7 @@ try {
         id: el.id, type: el.type || el.tagName.toLowerCase(), tag: el.tagName.toLowerCase()
       })));
       for (const field of controls) {
-        const locator = field.id ? page.locator('#' + CSS.escape(field.id)) : form.locator(field.tag).first();
+        const locator = field.id ? page.locator('#' + field.id) : form.locator(field.tag).first();
         if (field.tag === 'select') {
           await locator.selectOption({ index: 0 });
           continue;
