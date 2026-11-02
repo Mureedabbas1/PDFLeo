@@ -128,6 +128,7 @@ try {
       await download.saveAs(outputPath);
       const stat = await fs.stat(outputPath);
       if (!stat.size) throw new Error('Downloaded output is empty');
+      if (tool === 'compare') { const archive = await JSZip.loadAsync(await fs.readFile(outputPath)); if (!archive.file('text-differences.txt') || !archive.file('page-001-visual-diff.png')) throw new Error('Visual comparison ZIP is missing its report or page image.'); }
       const status = await page.locator('#status').innerText();
       if (/error/i.test(await page.locator('#status').getAttribute('class') || '')) throw new Error(status);
       results.push({ tool, status: 'PASS', output: download.suggestedFilename(), bytes: stat.size, message: status });
