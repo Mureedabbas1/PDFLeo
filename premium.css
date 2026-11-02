@@ -683,3 +683,8 @@ html[data-pdfleo-theme="light"] .pl-core{background:linear-gradient(155deg,rgba(
 
 /* Prevent sub-pixel/fixed decorative elements from widening very narrow mobile viewports. */
 html,body{max-width:100%;overflow-x:hidden}
+
+/* Final narrow-screen containment: fixed overlays and transformed artwork must not widen the layout viewport. */
+html{width:100%;max-width:100%;overflow-x:clip!important}
+body{width:100%;max-width:100%;min-width:0;overflow-x:clip!important;contain:layout}
+@supports not (overflow:clip){html,body{overflow-x:hidden!important}}
