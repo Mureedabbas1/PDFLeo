@@ -88,3 +88,8 @@ The production database security hardening recorded in [supabase-security-fixes.
 ## Verification notes
 
 Repository checks and successful commits do not replace live testing with representative sample files. Test each important tool with several PDFs and verify the downloaded file, especially for password protection/unlocking, redaction, PDF/A, OCR and conversions. Also test DNS/HTTPS, account flows and email delivery separately.
+
+
+### Page-selective PDF editing
+
+The Edit PDF tool can place a typed text annotation at a chosen X/Y position and font size on all pages or a comma-separated page selection such as `1-3,5`. The Sign PDF tool can place a typed signature mark at a chosen position and size on selected pages. These are simple visible text overlays, not full freeform editing or certified digital signatures. Coordinates are PDF points measured from the bottom-left corner. The built-in Helvetica font has limited character coverage and may not render Urdu or Arabic correctly.
