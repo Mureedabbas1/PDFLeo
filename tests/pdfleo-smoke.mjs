@@ -93,7 +93,7 @@ try {
         name.endsWith('.xlsx') ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :
         name.endsWith('.html') ? 'text/html' : 'text/plain',
         buffer: await fs.readFile(path.join(tmp, name)) }))));
-      if (tool === 'organize') await page.locator('#pageOrder').fill('2,1');
+      if (tool === 'organize') { await page.waitForSelector('#organizePreview .organize-page'); await page.locator('#organizePreview .organize-page').first().locator('[data-move="down"]').click(); if (await page.locator('#pageOrder').inputValue() !== '2,1') throw new Error('Organizer move-down control did not update page order.'); await page.locator('#organizePreview .organize-page').last().locator('[data-move="up"]').click(); if (await page.locator('#pageOrder').inputValue() !== '1,2') throw new Error('Organizer move-up control did not restore page order.'); await page.locator('#pageOrder').fill('2,1'); }
       if (tool === 'extract') await page.locator('#range').fill('1');
       if (tool === 'remove') await page.locator('#range').fill('2');
       if (tool === 'rotate') await page.locator('#angle').selectOption('90');
