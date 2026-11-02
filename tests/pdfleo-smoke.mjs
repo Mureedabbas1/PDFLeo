@@ -99,7 +99,7 @@ try {
       if (tool === 'rotate') await page.locator('#angle').selectOption('90');
       if (tool === 'watermark') await page.locator('#watermarkText').fill('PDFLeo Test');
       if (tool === 'numbers') await page.locator('#prefix').fill('Test');
-      if (tool === 'edit') await page.locator('#editText').fill('PDFLeo edit test');
+      if (tool === 'edit') { await page.waitForSelector('#editPreview canvas'); await page.locator('#editText').fill('PDFLeo edit test'); const before = Number(await page.locator('#editX').inputValue()); const box = await page.locator('#editPreviewOverlay').boundingBox(); if (!box) throw new Error('Editor placement preview is not visible.'); await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2); await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + 24, box.y + box.height / 2 + 12, { steps: 3 }); await page.mouse.up(); const after = Number(await page.locator('#editX').inputValue()); if (after <= before) throw new Error('Dragging the editor preview did not update the X coordinate.'); }
       if (tool === 'sign') await page.locator('#signText').fill('Test Signature');
       if (tool === 'crop') await page.locator('#cropInset').fill('10');
       if (tool === 'compress') await page.locator('#compressionQuality').selectOption('low');
