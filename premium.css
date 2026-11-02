@@ -677,3 +677,6 @@ html[data-pdfleo-theme="light"] .pl-core{background:linear-gradient(155deg,rgba(
   .cat-head p{font-size:12.5px;line-height:1.5}
   .cat-head .n{margin-top:4px;font-size:11.5px;padding:3px 9px}
 }
+
+/* PDF page organizer drag-and-drop preview */
+.organize-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;margin:14px 0}.organize-page{display:flex;flex-direction:column;align-items:center;gap:7px;padding:9px;border:1px solid var(--line,rgba(255,255,255,.16));border-radius:12px;background:var(--panel,rgba(255,255,255,.04));cursor:grab;user-select:none}.organize-page canvas{display:block;max-width:100%;height:auto;max-height:170px;background:#fff;box-shadow:0 3px 12px #0002}.organize-page span{font-size:12px;font-weight:700}.organize-page.dragging{opacity:.4}.organize-page.drag-over{outline:2px dashed var(--accent,#8b9cff);outline-offset:2px}@media(max-width:520px){.organize-preview{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.organize-page{padding:6px}}
