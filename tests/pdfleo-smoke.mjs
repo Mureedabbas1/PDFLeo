@@ -136,7 +136,7 @@ try {
       results.push({ tool, status: 'FAIL', detail: String(err?.message || err).slice(0, 500) });
     }
   }
-  for (const mode of ['rectangle', 'highlight', 'image']) {
+  for (const mode of ['rectangle', 'highlight', 'image', 'coverText']) {
     try {
       await page.locator('[data-tool="edit"]').click();
       await page.locator('#editMode').selectOption(mode);
@@ -145,6 +145,7 @@ try {
       await page.locator('#editY').fill('50');
       await page.locator('#editW').fill('120');
       await page.locator('#editH').fill('80');
+      if (mode === 'coverText') await page.locator('#editText').fill('Replacement text');
       if (mode === 'image') await page.locator('#editImage').setInputFiles({ name: 'sample.png', mimeType: 'image/png', buffer: await fs.readFile(path.join(tmp, 'sample.png')) });
       const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
       await page.locator('#run').click();
