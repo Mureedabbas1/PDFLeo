@@ -107,7 +107,7 @@ try {
       if (tool === 'unlock') await page.locator('#unlockPassword').fill('test1234');
       if (tool === 'protect') { await page.locator('#protectPassword').fill('newpass123'); await page.locator('#protectPasswordConfirm').fill('newpass123'); }
       if (tool === 'redact') { await page.locator('#redactPage').fill('1'); await page.locator('#redactX').fill('40'); await page.locator('#redactY').fill('40'); await page.locator('#redactW').fill('180'); await page.locator('#redactH').fill('50'); }
-      if (tool === 'translate') { await page.locator('#translateSource').selectOption('en'); await page.locator('#translateTarget').selectOption('es'); }
+      if (tool === 'translate') { await page.locator('#translateSource').selectOption('en'); await page.locator('#translateTarget').selectOption('es'); await page.locator('#translateConsent').check(); }
       if (tool === 'forms') {
         const formReady = await Promise.race([
           page.waitForFunction(() => document.querySelector('[data-form-field-index="0"]')).then(() => 'ready'),
