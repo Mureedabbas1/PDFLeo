@@ -157,6 +157,32 @@ try {
       results.push({ tool: 'edit-' + mode, status: 'FAIL', detail: String(err?.message || err).slice(0, 400) });
     }
   }
+  // Responsive smoke checks at common phone and tablet widths.
+  try {
+    await page.goto('http://127.0.0.1:4173/index.html', { waitUntil: 'domcontentloaded' });
+    for (const width of [320, 375, 390, 430, 768]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.waitForTimeout(120);
+      const dimensions = await page.evaluate(() => ({
+        viewport: document.documentElement.clientWidth,
+        document: document.documentElement.scrollWidth,
+        body: document.body.scrollWidth
+      }));
+      if (dimensions.document > dimensions.viewport + 2 || dimensions.body > dimensions.viewport + 2) {
+        throw new Error('Horizontal overflow at ' + width + 'px: ' + JSON.stringify(dimensions));
+      }
+      results.push({ tool: 'responsive-' + width, status: 'PASS', message: 'No horizontal overflow' });
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('[data-tool="ocr"]').click();
+    await page.locator('#ocrLanguage').selectOption('urd');
+    if (await page.locator('#ocrLanguage').inputValue() !== 'urd') throw new Error('Urdu OCR option could not be selected on mobile.');
+    await page.locator('#ocrLanguage').selectOption('ara');
+    if (await page.locator('#ocrLanguage').inputValue() !== 'ara') throw new Error('Arabic OCR option could not be selected on mobile.');
+    results.push({ tool: 'mobile-ocr-language-options', status: 'PASS', message: 'Urdu and Arabic choices are selectable' });
+  } catch (err) {
+    results.push({ tool: 'responsive', status: 'FAIL', detail: String(err?.message || err).slice(0, 500) });
+  }
   for (const tool of serviceTools) {
     try {
       await page.locator('[data-tool="' + tool + '"]').click();
