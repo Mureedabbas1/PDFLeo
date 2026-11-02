@@ -15,7 +15,7 @@ The homepage lists 35 PDF/document tools. Its current interface marks 34 as Read
 - **Basic PDF operations:** merge, split, extract, organize, rotate and remove pages.
 - **Images and rendering:** images/JPG to PDF, scan photos to PDF, PDF to JPG and PDF to PowerPoint (page images).
 - **Optimization and recovery:** compress, optimize and basic repair attempts. Compression/optimization may rasterize pages or change quality; repair cannot recover every damaged file.
-- **Text and conversion:** OCR, PDF to Word/Excel/Markdown, PDF summarizer, compare PDFs, and Office/HTML/text conversions. Many conversions extract text or create a simplified output rather than preserve original formatting.
+- **Text and conversion:** OCR, PDF to Word/Excel/Markdown, PDF summarizer, compare PDFs with page-by-page added/removed text-line reports, and Office/HTML/text conversions. PDF comparison is text-only: it does not detect visual, font, spacing or image differences. Many conversions extract text or create a simplified output rather than preserve original formatting.
 - **Page edits:** add page numbers, watermark, crop pages, add text, and add a typed signature mark. These are basic stamping/editing operations, not full-featured editors or cryptographic digital signatures.
 - **PDF forms:** fills supported existing text fields, checkboxes and choice fields; it does not create new fields.
 - **PDF/A:** uses Ghostscript WebAssembly to prepare an archival conversion. A successful conversion is not proof of PDF/A compliance; validate with a dedicated independent validator before regulated archiving.
