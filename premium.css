@@ -686,5 +686,5 @@ html,body{max-width:100%;overflow-x:hidden}
 
 /* Final narrow-screen containment: fixed overlays and transformed artwork must not widen the layout viewport. */
 html{width:100%;max-width:100%;overflow-x:clip!important}
-body{width:100%;max-width:100%;min-width:0;overflow-x:clip!important;contain:layout}
+body{width:100%;max-width:100%;min-width:0;overflow-x:clip!important}
 @supports not (overflow:clip){html,body{overflow-x:hidden!important}}
