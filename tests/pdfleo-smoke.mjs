@@ -57,7 +57,7 @@ const server = http.createServer(async (req, res) => {
   try {
     const bytes = await fs.readFile(target);
     const ext = path.extname(target);
-    res.setHeader('Content-Type', ext === '.html' ? 'text/html' : ext === '.svg' ? 'image/svg+xml' : 'application/octet-stream');
+    res.setHeader('Content-Type', ({ '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8' })[ext] || 'application/octet-stream');
     res.end(bytes);
   } catch { res.writeHead(404).end('Not found'); }
 });
