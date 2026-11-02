@@ -93,3 +93,9 @@ Repository checks and successful commits do not replace live testing with repres
 ### Page-selective PDF editing
 
 The Edit PDF tool can place a typed text annotation at a chosen X/Y position and font size on all pages or a comma-separated page selection such as `1-3,5`. The Sign PDF tool can place a typed signature mark at a chosen position and size on selected pages. These are simple visible text overlays, not full freeform editing or certified digital signatures. Coordinates are PDF points measured from the bottom-left corner. The built-in Helvetica font has limited character coverage and may not render Urdu or Arabic correctly.
+
+
+### Improved PDF exports
+- **PDF to Word:** exports selectable PDF text into an editable DOCX, keeping extracted line breaks and page breaks. Simple heading styling is inferred from text and may not match the source; original layout and images are not preserved.
+- **PDF to Excel:** exports selectable PDF text into an XLSX workbook with one worksheet per PDF page. Tabs, pipe separators, and repeated spaces are used as basic column hints; complex tables may need manual cleanup. Scanned PDFs require OCR first.
+- Both conversions run in the browser. Keep the original PDF and review the exported file before relying on it.
