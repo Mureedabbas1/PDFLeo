@@ -135,6 +135,27 @@ try {
       results.push({ tool, status: 'FAIL', detail: String(err?.message || err).slice(0, 500) });
     }
   }
+  for (const mode of ['rectangle', 'highlight', 'image']) {
+    try {
+      await page.locator('[data-tool="edit"]').click();
+      await page.locator('#editMode').selectOption(mode);
+      await page.locator('#files').setInputFiles({ name: 'sample.pdf', mimeType: 'application/pdf', buffer: await fs.readFile(path.join(tmp, 'sample.pdf')) });
+      await page.locator('#editX').fill('50');
+      await page.locator('#editY').fill('50');
+      await page.locator('#editW').fill('120');
+      await page.locator('#editH').fill('80');
+      if (mode === 'image') await page.locator('#editImage').setInputFiles({ name: 'sample.png', mimeType: 'image/png', buffer: await fs.readFile(path.join(tmp, 'sample.png')) });
+      const downloadPromise = page.waitForEvent('download', { timeout: 60000 });
+      await page.locator('#run').click();
+      const download = await downloadPromise;
+      const outputPath = path.join(tmp, 'editor-' + mode + '.pdf');
+      await download.saveAs(outputPath);
+      if (!(await fs.stat(outputPath)).size) throw new Error('Editor output is empty');
+      results.push({ tool: 'edit-' + mode, status: 'PASS', output: download.suggestedFilename() });
+    } catch (err) {
+      results.push({ tool: 'edit-' + mode, status: 'FAIL', detail: String(err?.message || err).slice(0, 400) });
+    }
+  }
   for (const tool of serviceTools) {
     try {
       await page.locator('[data-tool="' + tool + '"]').click();
