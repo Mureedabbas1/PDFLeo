@@ -25,6 +25,7 @@ jobs:
       - name: Run PDF tool smoke tests
         run: node tests/pdfleo-smoke.mjs
       - name: Run all 30 QR generator smoke tests
+        if: always()
         run: node tests/qr-smoke.mjs
       - name: Upload smoke test results
         if: always()
