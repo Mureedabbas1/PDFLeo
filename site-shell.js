@@ -9,7 +9,7 @@
   const doc=new DOMParser().parseFromString(await response.text(),"text/html");
   const sourceHeader=doc.querySelector("header.pl-header"),sourceFooter=doc.querySelector("footer.pl-footer");
   if(!sourceHeader||!sourceFooter)throw new Error("Shared layout not found");
-  document.querySelectorAll("body > header, body > footer").forEach(el=>el.remove());
+  document.querySelectorAll("header, footer").forEach(el=>el.remove());
   const sprite=[...doc.querySelectorAll("body > svg")].find(el=>el.querySelector("defs"));
   if(sprite&&!document.querySelector("body > svg[data-pdfleo-icons]")){const copy=sprite.cloneNode(true);copy.dataset.pdfleoIcons="1";document.body.prepend(copy);}
   const header=sourceHeader.cloneNode(true),footer=sourceFooter.cloneNode(true);
