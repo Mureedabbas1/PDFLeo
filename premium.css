@@ -688,3 +688,31 @@ html,body{max-width:100%;overflow-x:hidden}
 html{width:100%;max-width:100%;overflow-x:clip!important}
 body{width:100%;max-width:100%;min-width:0;overflow-x:clip!important}
 @supports not (overflow:clip){html,body{overflow-x:hidden!important}}
+
+/* ---------- mobile polish (2026-11-08) ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media(max-width:600px){
+  /* 16px stops iPhone Safari zooming in when a field is tapped */
+  input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),select,textarea{font-size:16px}
+
+  /* hero preview chips hung outside the screen edge and got cut off: pull them inside */
+  .c-docx{left:0;top:5%}
+  .c-jpg{left:0;bottom:26%}
+  .c-pdf{right:0;top:22%}
+  .c-lock{right:0;bottom:7%}
+
+  /* footer links: 44px tap targets */
+  .foot-col a{padding:12px 0}
+  .foot-bottom a,.footer-support a{display:inline-flex;align-items:center;min-height:44px}
+  .pl-links a,.pl-mobile-menu a{min-height:44px}
+}
+
+/* ---------- light-design inner pages (About, FAQ, Contact, guides...) ---------- */
+/* site-shell.js sets data-pdfleo-surface="light" when the page itself has a light background.
+   premium.css (dark theme) used to make their headings light-on-white and flatten paragraph spacing. */
+html[data-pdfleo-surface="light"] body{color:var(--ink,var(--g-text,#152238))}
+html[data-pdfleo-surface="light"] .pl-header{--nav-bg:rgba(16,24,42,.95)}
+:where(html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer)) :is(h1,h2,h3,h4){color:inherit}
+:where(html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer)) p{margin:0 0 1em}
+:where(html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer)) :is(h1,h2,h3,h4){margin:0 0 .5em}
+html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer) a:not([class]){color:var(--blue,#155eef);text-decoration:underline;text-underline-offset:3px}

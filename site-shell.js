@@ -1,8 +1,10 @@
 /* PDFLeo shared site shell */
 (async function(){
  if(location.pathname==="/"||location.pathname.endsWith("/index.html"))return;
+ /* Old light-design pages (About, FAQ, guides...) load the dark premium shell: mark them so premium.css can keep their own colours */
+ try{const c=(getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g)||[]).map(Number);if(c.length>=3&&(c.length<4||c[3]>0.5)&&(0.2126*c[0]+0.7152*c[1]+0.0722*c[2])/255>0.6)document.documentElement.setAttribute("data-pdfleo-surface","light");}catch(e){}
  if(!document.querySelector('link[data-pdfleo-premium]')){
-  const css=document.createElement("link");css.rel="stylesheet";css.href="/premium.css?v=20261104-shell";css.dataset.pdfleoPremium="1";document.head.appendChild(css);
+  const css=document.createElement("link");css.rel="stylesheet";css.href="/premium.css?v=20261108-mobile";css.dataset.pdfleoPremium="1";document.head.appendChild(css);
  }
  try{
   const response=await fetch("/",{credentials:"same-origin",cache:"no-cache"});if(!response.ok)throw new Error("Homepage shell unavailable");
