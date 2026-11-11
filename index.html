@@ -140,8 +140,29 @@
 <meta name="twitter:title" content="PDFLeo | Simple Online PDF Tools for Everyday Documents">
 <meta name="twitter:description" content="Use PDFLeo to merge, split, organise and convert everyday PDF documents online. Simple browser-based tools with practical guidance for checking every result.">
 <meta name="twitter:image" content="https://pdfleo.online/og-image.png">
+<style id="pdfleo-welcome-style">
+#pdfleoWelcome{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;overflow:hidden;background:#070b18;opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
+#pdfleoWelcome.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+#pdfleoWelcome::before{content:"";position:absolute;inset:-12px;background-image:linear-gradient(115deg,rgba(5,10,25,.58),rgba(7,13,31,.34) 48%,rgba(5,10,25,.68)),url("/pdf%20leo%20welcome%20screen%20back%20gound.png");background-size:cover;background-position:center;filter:blur(2px);transform:scale(1.035)}
+#pdfleoWelcome::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 44%,rgba(24,91,210,.14),transparent 48%),linear-gradient(180deg,rgba(3,8,20,.12),rgba(3,8,20,.42))}
+.pdfleo-welcome-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:18px;padding:28px;text-align:center;animation:pdfleoWelcomeIn .8s ease both}
+.pdfleo-welcome-logo{display:block;width:min( min(460px,78vw),460px);height:auto;max-height:112px;filter:drop-shadow(0 12px 28px rgba(0,0,0,.3))}
+.pdfleo-welcome-tagline{margin:0;color:#fff;font:800 clamp(18px,2.6vw,25px)/1.35 Inter,Arial,sans-serif;letter-spacing:.035em;text-shadow:0 2px 18px rgba(0,0,0,.55)}
+.pdfleo-welcome-line{width:76px;height:3px;border-radius:9px;background:linear-gradient(90deg,#7cb3ff,#fff,#155eef);box-shadow:0 0 18px rgba(91,151,255,.65);animation:pdfleoWelcomeLine 1.4s ease-in-out infinite alternate}
+@keyframes pdfleoWelcomeIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes pdfleoWelcomeLine{from{transform:scaleX(.72);opacity:.65}to{transform:scaleX(1.08);opacity:1}}
+@media(prefers-reduced-motion:reduce){.pdfleo-welcome-content{animation:none}.pdfleo-welcome-line{animation:none}}
+</style>
 </head>
 <body>
+<div id="pdfleoWelcome" role="status" aria-label="Welcome to PDFLeo">
+  <div class="pdfleo-welcome-content">
+    <img class="pdfleo-welcome-logo" src="/brand-logo.svg" alt="PDFLeo — PDF tools made simple" width="460" height="104">
+    <p class="pdfleo-welcome-tagline">Welcome to PDFLeo</p>
+    <span class="pdfleo-welcome-line" aria-hidden="true"></span>
+  </div>
+</div>
+
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="pl-aurora" aria-hidden="true"><i></i><i></i><i></i></div><div class="pl-dots" aria-hidden="true"></div>
 <div class="pl-progress" id="plProgress" aria-hidden="true"></div>
@@ -588,6 +609,9 @@ $('run').addEventListener('click',async()=>{const files=[...$('files').files];$(
 </script>
 <script>
 (()=>{const b=document.getElementById('mobileAccountOpen');if(b)b.addEventListener('click',()=>{const login=document.getElementById('authOpen');if(login)login.click();});})();
+</script>
+<script>
+(()=>{const screen=document.getElementById('pdfleoWelcome');if(!screen)return;const dismiss=()=>{screen.classList.add('is-leaving');window.setTimeout(()=>screen.remove(),700);};window.setTimeout(dismiss,7000);screen.addEventListener('click',dismiss,{once:true});})();
 </script>
 <script src="premium.js?v=20261031"></script>
 </body>
