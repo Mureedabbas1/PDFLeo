@@ -611,7 +611,7 @@ $('run').addEventListener('click',async()=>{const files=[...$('files').files];$(
 (()=>{const b=document.getElementById('mobileAccountOpen');if(b)b.addEventListener('click',()=>{const login=document.getElementById('authOpen');if(login)login.click();});})();
 </script>
 <script>
-(()=>{const screen=document.getElementById('pdfleoWelcome');if(!screen)return;const dismiss=()=>{screen.classList.add('is-leaving');window.setTimeout(()=>screen.remove(),700);};window.setTimeout(dismiss,7000);screen.addEventListener('click',dismiss,{once:true});})();
+(()=>{const screen=document.getElementById('pdfleoWelcome');if(!screen)return;const dismiss=()=>{screen.classList.add('is-leaving');window.setTimeout(()=>screen.remove(),700);};window.setTimeout(dismiss,4000);screen.addEventListener('click',dismiss,{once:true});})();
 </script>
 <script src="premium.js?v=20261031"></script>
 </body>
