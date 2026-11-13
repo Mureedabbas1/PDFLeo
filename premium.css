@@ -716,3 +716,6 @@ html[data-pdfleo-surface="light"] .pl-header{--nav-bg:rgba(16,24,42,.95)}
 :where(html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer)) p{margin:0 0 1em}
 :where(html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer)) :is(h1,h2,h3,h4){margin:0 0 .5em}
 html[data-pdfleo-surface="light"] body>*:not(.pl-header):not(.pl-footer) a:not([class]){color:var(--blue,#155eef);text-decoration:underline;text-underline-offset:3px}
+
+/* Mobile readability: tool status badges and small icons were 9-10px */
+@media(max-width:700px){.tool-status{font-size:11px!important}.fi{font-size:11px!important}}
