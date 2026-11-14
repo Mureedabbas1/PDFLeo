@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-pdfleo-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Free Age Calculator – Exact Age in Years, Months & Days | PDFLeo</title>
+<meta name="description" content="Calculate your exact age in years, months and days from your date of birth. Find your next birthday and total days lived with PDFLeo's free online age calculator.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://pdfleo.online/age-calculator.html">
+<meta name="theme-color" content="#080B16">
+<link rel="icon" type="image/svg+xml" href="/logo.svg?v=20261014-leo-pdf">
+<link rel="stylesheet" href="/premium.css?v=20261108-mobile">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ES6QZMM4N8"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-ES6QZMM4N8');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6162822251101594" crossorigin="anonymous"></script>
+<style>
+.age-wrap{width:min(760px,calc(100% - 32px));margin:48px auto 80px}.age-panel{padding:clamp(22px,5vw,38px);border:1px solid rgba(130,160,220,.22);border-radius:24px;background:rgba(17,27,51,.78);box-shadow:0 22px 70px rgba(0,0,0,.24)}.age-panel h1{margin:0 0 10px;font-size:clamp(28px,5vw,42px)}.age-panel>p{color:var(--muted,#aab6cc);line-height:1.65}.age-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}.age-form label{display:grid;gap:8px;font-weight:650}.age-form input{width:100%;min-height:48px;padding:10px 12px;border:1px solid rgba(150,175,220,.35);border-radius:12px;background:rgba(5,12,28,.7);color:inherit;font:inherit}.age-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.age-results{display:none;margin-top:24px;padding:20px;border-radius:16px;background:rgba(43,91,170,.16);border:1px solid rgba(111,157,236,.28)}.age-results.show{display:block}.age-results h2{margin:0 0 14px;font-size:22px}.age-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.age-stat{padding:14px 10px;text-align:center;border-radius:12px;background:rgba(4,12,28,.42)}.age-stat strong{display:block;font-size:clamp(23px,5vw,32px)}.age-stat span{font-size:13px;color:var(--muted,#aab6cc)}.age-extra{margin:14px 0 0;line-height:1.7}.age-error{min-height:24px;margin:12px 0 0;color:#ff9d9d}.age-note{font-size:13px;color:var(--muted,#aab6cc);line-height:1.6;margin-top:22px}@media(max-width:520px){.age-form{grid-template-columns:1fr}.age-stats{grid-template-columns:1fr 1fr 1fr}.age-wrap{margin-top:28px}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap nav-wrap"><a class="brand" href="/" aria-label="PDFLeo home"><img src="/brand-logo.svg" alt="PDFLeo" width="180" height="42"></a><nav class="main-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/#tools">All tools</a><a href="/faq.html">FAQ</a></nav></div></header>
+<main class="age-wrap">
+<section class="age-panel" aria-labelledby="age-title">
+<span class="kicker">Free online calculator</span>
+<h1 id="age-title">Age Calculator</h1>
+<p>Enter your date of birth to calculate your exact age in years, months and days. You can also see how many days you have lived and when your next birthday arrives. Your date stays in this browser.</p>
+<div class="age-form">
+<label for="birthDate">Date of birth<input id="birthDate" type="date" required></label>
+<label for="asOfDate">Calculate age on<input id="asOfDate" type="date" required></label>
+</div>
+<div class="age-actions"><button class="btn" id="calculateAge" type="button">Calculate age</button><button class="btn secondary" id="resetAge" type="button">Reset</button></div>
+<p class="age-error" id="ageError" role="alert" aria-live="polite"></p>
+<section class="age-results" id="ageResults" aria-live="polite">
+<h2>Your exact age</h2>
+<div class="age-stats"><div class="age-stat"><strong id="years">—</strong><span>Years</span></div><div class="age-stat"><strong id="months">—</strong><span>Months</span></div><div class="age-stat"><strong id="days">—</strong><span>Days</span></div></div>
+<p class="age-extra" id="lived"></p><p class="age-extra" id="birthday"></p>
+</section>
+<p class="age-note">Age is calculated using calendar dates in your local browser. The result is for general information and does not replace official age verification.</p>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap"><p>© <span id="year"></span> PDFLeo. Free browser-based tools.</p><p><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="/contact.html">Contact</a></p></div></footer>
+<script>
+(function(){
+ const birth=document.getElementById('birthDate'), asOf=document.getElementById('asOfDate'), error=document.getElementById('ageError'), results=document.getElementById('ageResults');
+ const today=new Date();const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+ asOf.value=localDate(today);birth.max=asOf.max=localDate(today);document.getElementById('year').textContent=today.getFullYear();
+ function parse(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return null;const [y,m,d]=s.split('-').map(Number),v=new Date(y,m-1,d);return v.getFullYear()===y&&v.getMonth()===m-1&&v.getDate()===d?v:null;}
+ function daysInMonth(y,m){return new Date(y,m+1,0).getDate();}
+ function addMonthsClamped(date,n){const y=date.getFullYear(),m=date.getMonth()+n,d=date.getDate(),targetY=y+Math.floor(m/12),targetM=((m%12)+12)%12;return new Date(targetY,targetM,Math.min(d,daysInMonth(targetY,targetM)));}
+ function calculate(){error.textContent='';const b=parse(birth.value),a=parse(asOf.value);if(!b||!a){error.textContent='Please enter both valid dates.';results.classList.remove('show');return;}if(b>a){error.textContent='Date of birth cannot be after the calculation date.';results.classList.remove('show');return;}
+ let y=a.getFullYear()-b.getFullYear();let anchor=addMonthsClamped(b,y*12);if(anchor>a){y--;anchor=addMonthsClamped(b,y*12);}let m=(a.getFullYear()-anchor.getFullYear())*12+a.getMonth()-anchor.getMonth();let monthAnchor=addMonthsClamped(anchor,m);if(monthAnchor>a){m--;monthAnchor=addMonthsClamped(anchor,m);}const d=Math.round((a-monthAnchor)/86400000);
+ document.getElementById('years').textContent=y;document.getElementById('months').textContent=m;document.getElementById('days').textContent=d;
+ document.getElementById('lived').textContent='Total days lived: '+Math.floor((a-b)/86400000).toLocaleString();
+ let next=new Date(a.getFullYear(),b.getMonth(),Math.min(b.getDate(),daysInMonth(a.getFullYear(),b.getMonth())));if(next<a)next=new Date(a.getFullYear()+1,b.getMonth(),Math.min(b.getDate(),daysInMonth(a.getFullYear()+1,b.getMonth())));const remaining=Math.round((next-a)/86400000);
+ document.getElementById('birthday').textContent=remaining===0?'Happy birthday! Today is your birthday.':'Next birthday: '+next.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})+' ('+remaining+' days to go).';
+ results.classList.add('show');if(typeof gtag==='function')gtag('event','age_calculator_use');
+ }
+ document.getElementById('calculateAge').addEventListener('click',calculate);
+ document.getElementById('resetAge').addEventListener('click',()=>{birth.value='';asOf.value=localDate(new Date());error.textContent='';results.classList.remove('show');});
+})();
+</script>
+</body></html>
