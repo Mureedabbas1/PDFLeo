@@ -30,7 +30,7 @@ html{
   --nav-bg:rgba(16,24,42,.58);
   --aurora-a:rgba(100,140,255,.30);--aurora-b:rgba(155,123,255,.26);--aurora-c:rgba(216,188,131,.14);
   --dot:rgba(255,255,255,.075);
-  scroll-behavior:smooth;scroll-padding-top:96px;
+  scroll-behavior:auto;scroll-padding-top:96px;
 }
 html[data-pdfleo-theme="light"]{
   color-scheme:light;
