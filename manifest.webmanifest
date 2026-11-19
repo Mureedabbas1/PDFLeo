@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "PDFLeo",
+  "short_name": "PDFLeo",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080B16",
+  "theme_color": "#080B16",
+  "description": "PDFLeo web app",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
