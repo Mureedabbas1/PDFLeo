@@ -162,6 +162,20 @@
 }
 @media(max-width:360px){.pdfleo-welcome-logo{width:84vw;padding:12px 14px}.pdfleo-welcome-tagline{font-size:18px}}
 </style>
+
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PDFLeo">
+<meta name="theme-color" content="#080B16">
+<style id="pwa-install-ui">
+#pwa-install-cta{position:fixed;z-index:2147483000;left:18px;bottom:18px;display:flex;align-items:center;gap:10px;padding:11px 16px;border:1px solid #5b8cff;border-radius:999px;background:#080B16;color:#eaf1ff;box-shadow:0 8px 28px rgba(0,0,0,.22);font:700 13px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:.01em;cursor:pointer;transition:transform .2s,box-shadow .2s}
+#pwa-install-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+#pwa-install-cta .pwa-install-mark{width:9px;height:9px;border-radius:50%;background:#5b8cff;box-shadow:0 0 12px #5b8cff}
+#pwa-install-cta[hidden]{display:none!important}
+@media(max-width:640px){#pwa-install-cta{left:50%;bottom:calc(12px + env(safe-area-inset-bottom));transform:translateX(-50%);white-space:nowrap}#pwa-install-cta:hover{transform:translateX(-50%) translateY(-2px)}}
+@media(display-mode:standalone){#pwa-install-cta{display:none!important}}
+</style>
 </head>
 <body>
 <div id="pdfleoWelcome" role="status" aria-label="Welcome to PDFLeo">
@@ -623,5 +637,23 @@ $('run').addEventListener('click',async()=>{const files=[...$('files').files];$(
 (()=>{const screen=document.getElementById('pdfleoWelcome');if(!screen)return;const dismiss=()=>{screen.classList.add('is-leaving');window.setTimeout(()=>screen.remove(),700);};window.setTimeout(dismiss,4000);screen.addEventListener('click',dismiss,{once:true});})();
 </script>
 <script src="premium.js?v=20261031"></script>
+<button id="pwa-install-cta" type="button" aria-label="Install PDFLeo as an app"><span class="pwa-install-mark" aria-hidden="true"></span><span id="pwa-install-label">Install App</span></button>
+<script id="pwa-install-controller">
+(function(){
+ var button=document.getElementById("pwa-install-cta"),label=document.getElementById("pwa-install-label"),promptEvent=null;
+ if(!button)return;
+ var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+ if(standalone){button.hidden=true;return;}
+ window.addEventListener("beforeinstallprompt",function(event){event.preventDefault();promptEvent=event;});
+ window.addEventListener("appinstalled",function(){button.hidden=true;promptEvent=null;});
+ button.addEventListener("click",async function(){
+  if(promptEvent){promptEvent.prompt();try{await promptEvent.userChoice;}catch(e){}promptEvent=null;return;}
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(label)label.textContent=ios?"Share → Add to Home Screen":"Browser menu → Install App";
+  window.setTimeout(function(){if(label)label.textContent="Install App";},3200);
+ });
+ if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){});});}
+})();
+</script>
 </body>
 </html>
